@@ -43,7 +43,7 @@ namespace ntfysh_client
 
         private void OnToastActivated(ToastNotificationActivatedEventArgsCompat e)
         {
-            this.Invoke((MethodInvoker)delegate
+            this.Invoke((System.Windows.Forms.MethodInvoker)delegate
             {
                 var args = ToastArguments.Parse(e.Argument);
                 if (args.TryGetValue("action", out string action) && action == "copy")
@@ -81,8 +81,8 @@ namespace ntfysh_client
 
             _notificationDialog = new NotificationDialog();
 
-            // 启动后后台静默检查一次更新（仅在发现新版本时提示）
-            _ = CheckForUpdatesAsync(false);
+            // 【注释：禁用启动自动更新检查】
+            //_ = CheckForUpdatesAsync(false);
         }
 
         protected override void SetVisibleCore(bool value)
@@ -532,7 +532,9 @@ namespace ntfysh_client
 
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _ = CheckForUpdatesAsync(true);
+            // 直接return，点菜单什么都不执行
+            return;
+            //_ = CheckForUpdatesAsync(true);
         }
 
         /// <summary>
