@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -198,14 +198,15 @@ namespace ntfysh_client.Notifications
                 }
                 catch (WebSocketException wse)
                 {
-                    if (wse.WebSocketErrorCode is WebSocketError.NotAWebSocket)
-                    {
+                    //修复断连后不能重连
+                    //if (wse.WebSocketErrorCode is WebSocketError.NotAWebSocket)
+                    //{
                         //We haven't achieved a connection with a websocket. TODO Seems ntfy doesn't report unauthorised properly, and responds 200
                         
                         //Credential Failure! Do not retry
-                        OnConnectionCredentialsFailure?.Invoke(this, topic);
-                        return;
-                    }
+                    //    OnConnectionCredentialsFailure?.Invoke(this, topic);
+                    //    return;
+                    //}
                     
                     #if DEBUG
                         Debug.WriteLine(wse);
