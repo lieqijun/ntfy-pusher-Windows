@@ -33,9 +33,6 @@ ntfy.sh Windows 是一款轻量级的推送通知客户端，用于接收通过�
 ### -m & --allow-multiple-instances
 绕过实例检查，允许多个 ntfy.sh Windows 实例同时启动
 
-## 自动更新
-程序启动时会**静默检查一次更新**，也可通过 **帮助 → 检查更新** 菜单或托盘右键菜单的 **检查更新** 手动触发。
-
 - **原理**：调用 [GitHub Releases API](https://api.github.com/repos/H2O-MERO/ntfy-pusher-Windows/releases/latest) 获取最新版本号，与本机程序集版本比较；
 - 发现新版本后，下载 Release 中附带的 zip 更新包并显示下载进度；
 - 下载完成后程序自动退出，由临时脚本替换程序文件并**沿用原启动参数重新启动**（更新全程无需人工干预）；
