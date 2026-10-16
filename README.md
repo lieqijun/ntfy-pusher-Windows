@@ -1,5 +1,9 @@
 # ntfy pusher Windows
 
+构建命令
+dotnet publish ntfysh_client\ntfysh_client.csproj -c Release -r win-x64 --self-contained false -p:Version=1.0.0 -p:DebugType=none -p:DebugSymbols=false -o publish\win-x64
+
+
 本软件是 ntfy.sh Windows 的一个**增强的中文分支版本**。原版由 Lucas Bortoli 及贡献者开发。
 ntfy.sh Windows 是一款轻量级的推送通知客户端，用于接收通过兼容 https://ntfy.sh 标准的服务器发送的通知。
 
