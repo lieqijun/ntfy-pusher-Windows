@@ -1,6 +1,7 @@
 # ntfy pusher Windows
 
 构建命令
+
 dotnet publish ntfysh_client\ntfysh_client.csproj -c Release -r win-x64 --self-contained false -p:Version=1.0.0 -p:DebugType=none -p:DebugSymbols=false -o publish\win-x64
 
 
