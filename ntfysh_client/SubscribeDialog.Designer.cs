@@ -1,17 +1,9 @@
-﻿
 namespace ntfysh_client
 {
     partial class SubscribeDialog
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -23,218 +15,166 @@ namespace ntfysh_client
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            panel1 = new System.Windows.Forms.Panel();
-            button2 = new System.Windows.Forms.Button();
-            button1 = new System.Windows.Forms.Button();
-            label1 = new System.Windows.Forms.Label();
-            topicId = new System.Windows.Forms.TextBox();
-            serverUrl = new System.Windows.Forms.TextBox();
-            label2 = new System.Windows.Forms.Label();
-            username = new System.Windows.Forms.TextBox();
-            label3 = new System.Windows.Forms.Label();
-            password = new System.Windows.Forms.TextBox();
-            label4 = new System.Windows.Forms.Label();
-            label5 = new System.Windows.Forms.Label();
-            connectionType = new System.Windows.Forms.ComboBox();
-            panel1.SuspendLayout();
-            SuspendLayout();
-            // 
-            // panel1
-            // 
-            panel1.BackColor = System.Drawing.SystemColors.Control;
-            panel1.Controls.Add(button2);
-            panel1.Controls.Add(button1);
-            panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            panel1.Location = new System.Drawing.Point(0, 276);
-            panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(346, 58);
-            panel1.TabIndex = 8;
-            // 
-            // button2
-            // 
-            button2.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            button2.Location = new System.Drawing.Point(153, 15);
-            button2.Margin = new System.Windows.Forms.Padding(12, 13, 4, 13);
-            button2.Name = "button2";
-            button2.Size = new System.Drawing.Size(88, 30);
-            button2.TabIndex = 7;
-            button2.Text = "取消";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
-            // 
-            // button1
-            // 
-            button1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            button1.Location = new System.Drawing.Point(247, 15);
-            button1.Margin = new System.Windows.Forms.Padding(4, 13, 12, 13);
-            button1.Name = "button1";
-            button1.Size = new System.Drawing.Size(88, 30);
-            button1.TabIndex = 6;
-            button1.Text = "订阅";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(14, 11);
-            label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(102, 17);
-            label1.TabIndex = 1;
-            label1.Text = "主题ID(Topic ID)";
-            // 
+            this.topicId = new System.Windows.Forms.TextBox();
+            this.connectionType = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.labelTopicId = new System.Windows.Forms.Label();
+            this.labelConnectionType = new System.Windows.Forms.Label();
+            this.chkUseCustomServer = new System.Windows.Forms.CheckBox();
+            this.panelCustomServer = new System.Windows.Forms.Panel();
+            this.labelBearerToken = new System.Windows.Forms.Label();
+            this.txtBearerToken = new System.Windows.Forms.TextBox();
+            this.labelServerUrl = new System.Windows.Forms.Label();
+            this.serverUrl = new System.Windows.Forms.TextBox();
+            this.panelCustomServer.SuspendLayout();
+            this.SuspendLayout();
+            
             // topicId
-            // 
-            topicId.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            topicId.Location = new System.Drawing.Point(14, 33);
-            topicId.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            topicId.Name = "topicId";
-            topicId.Size = new System.Drawing.Size(318, 23);
-            topicId.TabIndex = 1;
-            topicId.KeyDown += topicId_KeyDown;
-            // 
+            this.topicId.Location = new System.Drawing.Point(16, 36);
+            this.topicId.Name = "topicId";
+            this.topicId.Size = new System.Drawing.Size(420, 21);
+            this.topicId.TabIndex = 0;
+            this.topicId.KeyDown += new System.Windows.Forms.KeyEventHandler(this.topicId_KeyDown);
+            
+            // labelTopicId
+            this.labelTopicId.AutoSize = true;
+            this.labelTopicId.Location = new System.Drawing.Point(13, 20);
+            this.labelTopicId.Name = "labelTopicId";
+            this.labelTopicId.Size = new System.Drawing.Size(77, 12);
+            this.labelTopicId.TabIndex = 1;
+            this.labelTopicId.Text = "Topic 主题：";
+            
+            // chkUseCustomServer
+            this.chkUseCustomServer.AutoSize = true;
+            this.chkUseCustomServer.Location = new System.Drawing.Point(16, 64);
+            this.chkUseCustomServer.Name = "chkUseCustomServer";
+            this.chkUseCustomServer.Size = new System.Drawing.Size(120, 16);
+            this.chkUseCustomServer.TabIndex = 2;
+            this.chkUseCustomServer.Text = "使用自定义服务器";
+            this.chkUseCustomServer.UseVisualStyleBackColor = true;
+            this.chkUseCustomServer.CheckedChanged += new System.EventHandler(this.chkUseCustomServer_CheckedChanged);
+            
+            // panelCustomServer
+            this.panelCustomServer.Controls.Add(this.labelBearerToken);
+            this.panelCustomServer.Controls.Add(this.txtBearerToken);
+            this.panelCustomServer.Controls.Add(this.labelServerUrl);
+            this.panelCustomServer.Controls.Add(this.serverUrl);
+            this.panelCustomServer.Location = new System.Drawing.Point(16, 86);
+            this.panelCustomServer.Name = "panelCustomServer";
+            this.panelCustomServer.Size = new System.Drawing.Size(420, 110);
+            this.panelCustomServer.TabIndex = 3;
+            this.panelCustomServer.Visible = false;
+            
+            // labelServerUrl
+            this.labelServerUrl.AutoSize = true;
+            this.labelServerUrl.Location = new System.Drawing.Point(4, 8);
+            this.labelServerUrl.Name = "labelServerUrl";
+            this.labelServerUrl.Size = new System.Drawing.Size(89, 12);
+            this.labelServerUrl.TabIndex = 0;
+            this.labelServerUrl.Text = "服务器地址：";
+            
             // serverUrl
-            // 
-            serverUrl.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            serverUrl.Location = new System.Drawing.Point(14, 84);
-            serverUrl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            serverUrl.Name = "serverUrl";
-            serverUrl.Size = new System.Drawing.Size(318, 23);
-            serverUrl.TabIndex = 2;
-            serverUrl.Text = "wss://ntfy.sh";
-            serverUrl.KeyDown += serverUrl_KeyDown;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(12, 62);
-            label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(71, 17);
-            label2.TabIndex = 3;
-            label2.Text = "服务器地址:";
-            // 
-            // username
-            // 
-            username.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            username.Location = new System.Drawing.Point(14, 135);
-            username.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            username.Name = "username";
-            username.Size = new System.Drawing.Size(318, 23);
-            username.TabIndex = 3;
-            username.TextChanged += username_TextChanged;
-            username.KeyDown += username_KeyDown;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(12, 113);
-            label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(47, 17);
-            label3.TabIndex = 5;
-            label3.Text = "用户名:";
-            // 
-            // password
-            // 
-            password.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            password.Location = new System.Drawing.Point(14, 186);
-            password.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            password.Name = "password";
-            password.Size = new System.Drawing.Size(318, 23);
-            password.TabIndex = 4;
-            password.UseSystemPasswordChar = true;
-            password.KeyDown += password_KeyDown;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new System.Drawing.Point(12, 164);
-            label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label4.Name = "label4";
-            label4.Size = new System.Drawing.Size(35, 17);
-            label4.TabIndex = 7;
-            label4.Text = "密码:";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new System.Drawing.Point(12, 215);
-            label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            label5.Name = "label5";
-            label5.Size = new System.Drawing.Size(59, 17);
-            label5.TabIndex = 9;
-            label5.Text = "连接方式:";
-            // 
+            this.serverUrl.Location = new System.Drawing.Point(7, 24);
+            this.serverUrl.Name = "serverUrl";
+            this.serverUrl.Size = new System.Drawing.Size(402, 21);
+            this.serverUrl.TabIndex = 1;
+            this.serverUrl.KeyDown += new System.Windows.Forms.KeyEventHandler(this.serverUrl_KeyDown);
+            
+            // labelBearerToken
+            this.labelBearerToken.AutoSize = true;
+            this.labelBearerToken.Location = new System.Drawing.Point(4, 52);
+            this.labelBearerToken.Name = "labelBearerToken";
+            this.labelBearerToken.Size = new System.Drawing.Size(83, 12);
+            this.labelBearerToken.TabIndex = 2;
+            this.labelBearerToken.Text = "Bearer Token：";
+            
+            // txtBearerToken
+            this.txtBearerToken.Location = new System.Drawing.Point(7, 68);
+            this.txtBearerToken.Name = "txtBearerToken";
+            this.txtBearerToken.PasswordChar = '*';
+            this.txtBearerToken.Size = new System.Drawing.Size(402, 21);
+            this.txtBearerToken.TabIndex = 3;
+            this.txtBearerToken.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtBearerToken_KeyDown);
+            
+            // labelConnectionType
+            this.labelConnectionType.AutoSize = true;
+            this.labelConnectionType.Location = new System.Drawing.Point(13, 204);
+            this.labelConnectionType.Name = "labelConnectionType";
+            this.labelConnectionType.Size = new System.Drawing.Size(89, 12);
+            this.labelConnectionType.TabIndex = 4;
+            this.labelConnectionType.Text = "连接方式：";
+            
             // connectionType
-            // 
-            connectionType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            connectionType.FormattingEnabled = true;
-            connectionType.Items.AddRange(new object[] { "Websockets (Recommended)", "Long HTTP JSON (Robust)" });
-            connectionType.Location = new System.Drawing.Point(14, 236);
-            connectionType.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            connectionType.Name = "connectionType";
-            connectionType.Size = new System.Drawing.Size(318, 25);
-            connectionType.TabIndex = 5;
-            connectionType.SelectedIndexChanged += connectionType_SelectedIndexChanged;
-            connectionType.TextChanged += connectionType_TextChanged;
-            // 
+            this.connectionType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.connectionType.FormattingEnabled = true;
+            this.connectionType.Items.AddRange(new object[] {
+            "Websockets (Recommended)",
+            "Long HTTP JSON (Robust)"});
+            this.connectionType.Location = new System.Drawing.Point(16, 220);
+            this.connectionType.Name = "connectionType";
+            this.connectionType.Size = new System.Drawing.Size(420, 20);
+            this.connectionType.TabIndex = 5;
+            this.connectionType.SelectedIndexChanged += new System.EventHandler(this.connectionType_SelectedIndexChanged);
+            
+            // button1
+            this.button1.Location = new System.Drawing.Point(260, 256);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(85, 28);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "订阅";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            
+            // button2
+            this.button2.Location = new System.Drawing.Point(351, 256);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(85, 28);
+            this.button2.TabIndex = 7;
+            this.button2.Text = "取消";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            
             // SubscribeDialog
-            // 
-            AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            BackColor = System.Drawing.Color.White;
-            ClientSize = new System.Drawing.Size(346, 334);
-            Controls.Add(connectionType);
-            Controls.Add(label5);
-            Controls.Add(password);
-            Controls.Add(label4);
-            Controls.Add(username);
-            Controls.Add(label3);
-            Controls.Add(serverUrl);
-            Controls.Add(label2);
-            Controls.Add(topicId);
-            Controls.Add(label1);
-            Controls.Add(panel1);
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            MaximizeBox = false;
-            MinimizeBox = false;
-            Name = "SubscribeDialog";
-            ShowIcon = false;
-            ShowInTaskbar = false;
-            StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            Text = "订阅新话题(Topic)";
-            Load += SubscribeDialog_Load;
-            panel1.ResumeLayout(false);
-            ResumeLayout(false);
-            PerformLayout();
-
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(454, 296);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.connectionType);
+            this.Controls.Add(this.labelConnectionType);
+            this.Controls.Add(this.panelCustomServer);
+            this.Controls.Add(this.chkUseCustomServer);
+            this.Controls.Add(this.labelTopicId);
+            this.Controls.Add(this.topicId);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "SubscribeDialog";
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "添加订阅";
+            this.Load += new System.EventHandler(this.SubscribeDialog_Load);
+            this.panelCustomServer.ResumeLayout(false);
+            this.panelCustomServer.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
         }
-
-        private System.Windows.Forms.TextBox serverUrl;
-        private System.Windows.Forms.Label label2;
-
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox topicId;
-        private System.Windows.Forms.TextBox username;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox password;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label labelTopicId;
+        private System.Windows.Forms.CheckBox chkUseCustomServer;
+        private System.Windows.Forms.Panel panelCustomServer;
+        private System.Windows.Forms.Label labelServerUrl;
+        private System.Windows.Forms.TextBox serverUrl;
+        private System.Windows.Forms.Label labelBearerToken;
+        private System.Windows.Forms.TextBox txtBearerToken;
+        private System.Windows.Forms.Label labelConnectionType;
         private System.Windows.Forms.ComboBox connectionType;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }
