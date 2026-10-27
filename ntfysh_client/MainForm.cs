@@ -23,9 +23,8 @@ namespace ntfysh_client
         private readonly NotificationListener _notificationListener;
         private bool _startInTray;
         private bool _trueExit;
-        private NotificationDialog _notificationDialog;
+        private NotificationDialog? _notificationDialog;
         private bool _updateCheckInProgress;
-
         private readonly Dictionary<string, string> _toastMessages = new Dictionary<string, string>();
 
         public MainForm(NotificationListener notificationListener, bool startInTray = false)
@@ -35,9 +34,7 @@ namespace ntfysh_client
             _notificationListener.OnNotificationReceive += OnNotificationReceive;
             _notificationListener.OnConnectionMultiAttemptFailure += OnConnectionMultiAttemptFailure;
             _notificationListener.OnConnectionCredentialsFailure += OnConnectionCredentialsFailure;
-
             ToastNotificationManagerCompat.OnActivated += OnToastActivated;
-
             InitializeComponent();
         }
 
@@ -53,11 +50,10 @@ namespace ntfysh_client
                         try
                         {
                             Clipboard.SetText(message);
-                            //Debug.WriteLine($"复制到剪贴板: {message}");
                         }
                         catch (Exception ex)
                         {
-                            // Debug.WriteLine($"复制失败: {ex.Message}");
+                            Debug.WriteLine($"复制失败: {ex.Message}");
                         }
                         finally
                         {
@@ -68,7 +64,6 @@ namespace ntfysh_client
             });
         }
 
-
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             notifyIcon.Dispose();
@@ -78,11 +73,7 @@ namespace ntfysh_client
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoadTopics();
-
             _notificationDialog = new NotificationDialog();
-
-            // 【注释：禁用启动自动更新检查】
-            //_ = CheckForUpdatesAsync(false);
         }
 
         protected override void SetVisibleCore(bool value)
@@ -90,20 +81,12 @@ namespace ntfysh_client
             if (_startInTray)
             {
                 _startInTray = false;
-
-                /*
-                 * TODO This little workaround prevents the window from appearing with a flash, but the taskbar icon appears for a moment.
-                 *
-                 * TODO This is because we must call SetVisibleCore(true) for the initial load events in the MainForm to fire, which is what triggers the listener
-                 */
                 Opacity = 0;
                 base.SetVisibleCore(true);
                 base.SetVisibleCore(false);
                 Opacity = 1;
-
                 return;
             }
-
             base.SetVisibleCore(value);
         }
 
@@ -123,7 +106,6 @@ namespace ntfysh_client
                         Debug.WriteLine($"复制失败: {ex.Message}");
                     }
                 });
-
                 clipboardThread.SetApartmentState(ApartmentState.STA);
                 clipboardThread.IsBackground = true;
                 clipboardThread.Start();
@@ -147,20 +129,14 @@ namespace ntfysh_client
             };
 
             string finalTitle = string.IsNullOrWhiteSpace(e.Title) ? $"{e.Sender.TopicId}@{e.Sender.ServerUrl}" : e.Title;
-
             if (Program.Settings.NotificationsMethod == SettingsModel.NotificationsType.NativeWindows)
             {
-                //notifyIcon.ShowBalloonTip((int)TimeSpan.FromSeconds((double)Program.Settings.Timeout).TotalMilliseconds, finalTitle, e.Message, priorityIcon);
-                //use toast for pushing cotifications
-
                 string tag = Guid.NewGuid().ToString();
                 _toastMessages[tag] = e.Message;
-
                 if (Program.Settings.NativeNotificationsAutoCopyToClipboard)
                 {
                     CopyToClipboard(e.Message);
                 }
-
                 string buttonText = Program.Settings.NativeNotificationsAutoCopyToClipboard
                     ? "已自动复制到剪切板"
                     : "复制内容";
@@ -169,7 +145,7 @@ namespace ntfysh_client
                     .AddText(finalTitle)
                     .AddText(e.Message)
                     .AddButton(new ToastButton()
-                        .SetContent(buttonText)              // ← 动态文本
+                        .SetContent(buttonText)
                         .AddArgument("action", "copy")
                         .AddArgument("tag", tag)
                         .SetBackgroundActivation())
@@ -183,8 +159,7 @@ namespace ntfysh_client
             }
             else
             {
-
-                _notificationDialog.ShowNotification(
+                _notificationDialog?.ShowNotification(
                     title: finalTitle,
                     message: e.Message,
                     timeoutSeconds: (int)Program.Settings.Timeout,
@@ -198,44 +173,46 @@ namespace ntfysh_client
 
         private void OnConnectionMultiAttemptFailure(NotificationListener sender, SubscribedTopic topic)
         {
-            // 注释掉，不再弹出多次重试失败弹窗
-            //MessageBox.Show($"Connecting to topic ID '{topic.TopicId}' on server '{topic.ServerUrl}' failed after multiple attempts.\n\nThis topic ID will be ignored and you will not receive notifications for it until you restart the application.", "Connection Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void OnConnectionCredentialsFailure(NotificationListener sender, SubscribedTopic topic)
         {
-            // 注释掉MessageBox，不再弹出报错窗口
-            //string reason = string.IsNullOrWhiteSpace(topic.Username) ? "credentials are required but were not provided" : "the entered credentials are incorrect";
-
-            //MessageBox.Show($"Connecting to topic ID '{topic.TopicId}' on server '{topic.ServerUrl}' failed because {reason}.\n\nThis topic ID will be ignored and you will not receive notifications for it until you correct the credentials.", "Connection Authentication Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void subscribeNewTopic_Click(object sender, EventArgs e)
         {
-            using SubscribeDialog dialog = new SubscribeDialog(无订阅的主题);
+            using SubscribeDialog dialog = new SubscribeDialog(无订阅的主题, Program.Settings.LastUsedServer, Program.Settings.LastUsedBearerToken);
             DialogResult result = dialog.ShowDialog();
-
-            //Do not subscribe on cancelled dialog
             if (result != DialogResult.OK) return;
 
-            //Convert the reconnection values to ints
+            // 服务器地址仅勾选自定义服务器时才更新记忆
+            if (dialog.UseCustomServer)
+            {
+                Program.Settings.LastUsedServer = dialog.ServerUrl;
+            }
+            // Token 不管有没有勾选自定义服务器，都记忆保存
+            Program.Settings.LastUsedBearerToken = dialog.BearerToken;
+            SettingsManager.SaveSettings(Program.Settings);
+
+
             int reconnectAttempts = Convert.ToInt32(Math.Ceiling(Program.Settings.ReconnectAttempts));
             int reconnectAttemptDelay = Convert.ToInt32(Math.Ceiling(Program.Settings.ReconnectAttemptDelay));
 
-            //Subscribe
+            string uniqueId = dialog.Unique;
+            string topicId = dialog.TopicId;
+            string serverUrl = dialog.ServerUrl;
+            string? bearerToken = string.IsNullOrWhiteSpace(dialog.BearerToken) ? null : dialog.BearerToken;
+
             if (dialog.UseWebsockets)
             {
-                _notificationListener.SubscribeToTopicUsingWebsocket(dialog.Unique, dialog.TopicId, dialog.ServerUrl, dialog.Username, dialog.Password, reconnectAttempts, reconnectAttemptDelay);
+                _notificationListener.SubscribeToTopicUsingWebsocket(uniqueId, topicId, serverUrl, bearerToken, reconnectAttempts, reconnectAttemptDelay);
             }
             else
             {
-                _notificationListener.SubscribeToTopicUsingLongHttpJson(dialog.Unique, dialog.TopicId, dialog.ServerUrl, dialog.Username, dialog.Password, reconnectAttempts, reconnectAttemptDelay);
+                _notificationListener.SubscribeToTopicUsingLongHttpJson(uniqueId, topicId, serverUrl, bearerToken, reconnectAttempts, reconnectAttemptDelay);
             }
 
-            //Add to the user visible list
-            无订阅的主题.Items.Add(dialog.Unique);
-
-            //Save the topics persistently
+            无订阅的主题.Items.Add(uniqueId);
             SaveTopicsToFile();
         }
 
@@ -244,19 +221,17 @@ namespace ntfysh_client
             while (无订阅的主题.SelectedIndex > -1)
             {
                 string topicUniqueString = (string)无订阅的主题.Items[无订阅的主题.SelectedIndex];
-
                 await _notificationListener.UnsubscribeFromTopicAsync(topicUniqueString);
                 无订阅的主题.Items.Remove(topicUniqueString);
             }
-
             SaveTopicsToFile();
         }
+
         private void UpdateAutoStart()
         {
             const string runKeyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
-            string appName = "ntfysh_client";   // 或 Application.ProductName，确保唯一
+            string appName = "ntfysh_client";
             string execPath = Application.ExecutablePath;
-
             using RegistryKey? rk = Registry.CurrentUser.OpenSubKey(runKeyPath, writable: true);
             if (rk == null) return;
 
@@ -275,15 +250,15 @@ namespace ntfysh_client
                 {
                     rk.DeleteValue(appName, throwOnMissingValue: false);
                 }
-                catch { /* 忽略可能的权限异常 */ }
+                catch
+                {
+                }
             }
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using SettingsDialog dialog = new();
-
-            //Load current settings into dialog
             dialog.ReconnectAttempts = Program.Settings.ReconnectAttempts;
             dialog.ReconnectAttemptDelay = Program.Settings.ReconnectAttemptDelay;
             dialog.UseNativeWindowsNotifications = Program.Settings.NotificationsMethod == SettingsModel.NotificationsType.NativeWindows;
@@ -291,24 +266,19 @@ namespace ntfysh_client
             dialog.CustomTrayNotificationsShowTimeoutBar = Program.Settings.CustomTrayNotificationsShowTimeoutBar;
             dialog.CustomTrayNotificationsShowInDarkMode = Program.Settings.CustomTrayNotificationsShowInDarkMode;
             dialog.CustomTrayNotificationsPlayDefaultWindowsSound = Program.Settings.CustomTrayNotificationsPlayDefaultWindowsSound;
-            dialog.Timeout = Program.Settings.Timeout; // set timeout last so bounds are setup before setting value
+            dialog.Timeout = Program.Settings.Timeout;
             dialog.NativeNotificationsAutoCopyToClipboard = Program.Settings.NativeNotificationsAutoCopyToClipboard;
             dialog.AutoStartEnabled = Program.Settings.AutoStartEnabled;
             dialog.AutoStartSilent = Program.Settings.AutoStartSilent;
             dialog.Language = Program.Settings.Language;
 
-
-            //Show dialog
             DialogResult result = dialog.ShowDialog();
-
-            //Do not save on cancelled dialog
             if (result != DialogResult.OK) return;
 
-            //Read new settings from dialog
             Program.Settings.Timeout = dialog.Timeout;
             Program.Settings.ReconnectAttempts = dialog.ReconnectAttempts;
             Program.Settings.ReconnectAttemptDelay = dialog.ReconnectAttemptDelay;
-            Program.Settings.NotificationsMethod = (dialog.UseNativeWindowsNotifications) ? SettingsModel.NotificationsType.NativeWindows : SettingsModel.NotificationsType.CustomTray;
+            Program.Settings.NotificationsMethod = dialog.UseNativeWindowsNotifications ? SettingsModel.NotificationsType.NativeWindows : SettingsModel.NotificationsType.CustomTray;
             Program.Settings.CustomTrayNotificationsShowTimeoutBar = dialog.CustomTrayNotificationsShowTimeoutBar;
             Program.Settings.CustomTrayNotificationsShowInDarkMode = dialog.CustomTrayNotificationsShowInDarkMode;
             Program.Settings.CustomTrayNotificationsPlayDefaultWindowsSound = dialog.CustomTrayNotificationsPlayDefaultWindowsSound;
@@ -327,7 +297,6 @@ namespace ntfysh_client
             }
         }
 
-
         private void notificationTopics_SelectedValueChanged(object sender, EventArgs e)
         {
             removeSelectedTopics.Enabled = 无订阅的主题.SelectedIndices.Count > 0;
@@ -337,35 +306,29 @@ namespace ntfysh_client
         {
             MouseEventArgs ev = (MouseEventArgs)e;
             int clickedItemIndex = 无订阅的主题.IndexFromPoint(new Point(ev.X, ev.Y));
-
             if (clickedItemIndex == -1) 无订阅的主题.ClearSelected();
         }
 
         private void notificationTopics_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Right) return;
-
             int clickedItemIndex = 无订阅的主题.IndexFromPoint(e.Location);
             if (clickedItemIndex == -1)
             {
                 无订阅的主题.ClearSelected();
                 return;
             }
-
-            // 右键时先选中被点击的行，便于复制该行内容
             无订阅的主题.SelectedIndex = clickedItemIndex;
         }
 
         private void topicsContextMenu_Opening(object sender, CancelEventArgs e)
         {
-            // 空白处右键时不显示菜单
             e.Cancel = 无订阅的主题.SelectedIndex == -1;
         }
 
         private void copyTopicNameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (无订阅的主题.SelectedItem is not string topicText) return;
-
             int atIndex = topicText.IndexOf('@');
             string topicName = atIndex < 0 ? topicText : topicText.Substring(0, atIndex);
             CopyToClipboard(topicName);
@@ -382,9 +345,7 @@ namespace ntfysh_client
         private void notifyIcon_Click(object sender, EventArgs e)
         {
             MouseEventArgs mouseEv = (MouseEventArgs)e;
-
             if (mouseEv.Button != MouseButtons.Left) return;
-
             Visible = !Visible;
             BringToFront();
         }
@@ -410,22 +371,17 @@ namespace ntfysh_client
         private void SaveTopicsToFile()
         {
             string topicsSerialised = JsonConvert.SerializeObject(_notificationListener.SubscribedTopicsByUnique.Select(st => st.Value).ToList(), Formatting.Indented);
-
             File.WriteAllText(GetTopicsFilePath(), topicsSerialised);
         }
-
 
         private void LoadTopics()
         {
             string legacyTopicsPath = GetLegacyTopicsFilePath();
             string topicsFilePath = GetTopicsFilePath();
 
-            //If we have an old format topics file. Convert it to the new format!
             if (File.Exists(legacyTopicsPath))
             {
-                //Read old format
                 List<string> legacyTopics = new List<string>();
-
                 using (StreamReader reader = new StreamReader(legacyTopicsPath))
                 {
                     while (!reader.EndOfStream)
@@ -434,80 +390,67 @@ namespace ntfysh_client
                         if (!string.IsNullOrWhiteSpace(legacyTopic)) legacyTopics.Add(legacyTopic);
                     }
                 }
-
-                //Assemble new format
-                List<SubscribedTopic> newTopics = legacyTopics.Select(lt => new SubscribedTopic(lt, "https://ntfy.sh", null, null)).ToList();
-
+                // 修复：只传两个参数，适配新版SubscribedTopic构造
+                List<SubscribedTopic> newTopics = legacyTopics.Select(lt => new SubscribedTopic(lt, "https://ntfy.sh")).ToList();
                 string newFormatSerialised = JsonConvert.SerializeObject(newTopics, Formatting.Indented);
-
-                //Write new format
                 File.WriteAllText(topicsFilePath, newFormatSerialised);
-
-                //Delete old format
                 File.Delete(legacyTopicsPath);
             }
 
-            //Check if we have any topics file on disk to load
             if (!File.Exists(topicsFilePath)) return;
 
-            //We have a topics file. Load it!
             string topicsSerialised = File.ReadAllText(topicsFilePath);
-
-            //Check if the file is empty
             if (string.IsNullOrWhiteSpace(topicsSerialised))
             {
-                //The file is empty. May as well remove it and consider it nonexistent
                 File.Delete(topicsFilePath);
                 return;
             }
 
-            //Deserialise the topics
             List<SubscribedTopic>? topics = JsonConvert.DeserializeObject<List<SubscribedTopic>>(topicsSerialised);
-
             if (topics is null)
             {
-                //TODO Deserialise error!
                 return;
             }
 
-            //Convert the reconnection values to ints
             int reconnectAttempts = Convert.ToInt32(Math.Ceiling(Program.Settings.ReconnectAttempts));
             int reconnectAttemptDelay = Convert.ToInt32(Math.Ceiling(Program.Settings.ReconnectAttemptDelay));
 
-            //Load them in
             foreach (SubscribedTopic topic in topics)
             {
                 string[] parts = topic.ServerUrl.Split("://", 2);
-
                 switch (parts[0].ToLower())
                 {
                     case "ws":
                     case "wss":
-                        _notificationListener.SubscribeToTopicUsingWebsocket($"{topic.TopicId}@{topic.ServerUrl}", topic.TopicId, topic.ServerUrl, topic.Username, topic.Password, reconnectAttempts, reconnectAttemptDelay);
+                        _notificationListener.SubscribeToTopicUsingWebsocket(
+                            $"{topic.TopicId}@{topic.ServerUrl}",
+                            topic.TopicId,
+                            topic.ServerUrl,
+                            topic.BearerToken,
+                            reconnectAttempts,
+                            reconnectAttemptDelay);
                         break;
-
                     case "http":
                     case "https":
-                        _notificationListener.SubscribeToTopicUsingLongHttpJson($"{topic.TopicId}@{topic.ServerUrl}", topic.TopicId, topic.ServerUrl, topic.Username, topic.Password, reconnectAttempts, reconnectAttemptDelay);
+                        _notificationListener.SubscribeToTopicUsingLongHttpJson(
+                            $"{topic.TopicId}@{topic.ServerUrl}",
+                            topic.TopicId,
+                            topic.ServerUrl,
+                            topic.BearerToken,
+                            reconnectAttempts,
+                            reconnectAttemptDelay);
                         break;
-
                     default:
                         continue;
                 }
-
                 无订阅的主题.Items.Add($"{topic.TopicId}@{topic.ServerUrl}");
             }
         }
 
-
-
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Let it close
             if (_trueExit) return;
-
             if (e.CloseReason != CloseReason.UserClosing) return;
-
             Visible = false;
             e.Cancel = true;
         }
@@ -534,24 +477,16 @@ namespace ntfysh_client
 
         private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // 直接return，点菜单什么都不执行
             return;
-            //_ = CheckForUpdatesAsync(true);
         }
 
-        /// <summary>
-        /// 检查更新。interactive=false 时静默运行（启动检查），只在发现新版本时提示；
-        /// interactive=true 时（手动点击）任何结果都会反馈给用户。
-        /// </summary>
         private async Task CheckForUpdatesAsync(bool interactive)
         {
-            if (_updateCheckInProgress) return; // 防止重复触发
+            if (_updateCheckInProgress) return;
             _updateCheckInProgress = true;
-
             try
             {
                 Updater.UpdateCheckResult result = await Updater.UpdateChecker.CheckForUpdatesAsync();
-
                 if (!result.CheckSucceeded)
                 {
                     if (interactive)
@@ -562,7 +497,6 @@ namespace ntfysh_client
                     }
                     return;
                 }
-
                 if (!result.UpdateAvailable)
                 {
                     if (interactive)
@@ -573,8 +507,6 @@ namespace ntfysh_client
                     }
                     return;
                 }
-
-                // 发现新版本，但发布里没有可下载的更新包
                 if (string.IsNullOrEmpty(result.AssetDownloadUrl))
                 {
                     if (interactive)
@@ -585,16 +517,13 @@ namespace ntfysh_client
                     }
                     return;
                 }
-
                 string notes = result.ReleaseNotes ?? "";
                 if (notes.Length > 2000) notes = notes.Substring(0, 2000) + "\n…";
-
                 DialogResult answer = MessageBox.Show(this,
                     string.Format(LocalizationHelper.GetGlobalString("UpdateChecker.NewVersionAvailable"),
                         result.LatestVersion, result.CurrentVersion, notes),
                     "ntfy pusher", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                 if (answer != DialogResult.Yes) return;
-
                 await DownloadAndApplyUpdateAsync(result);
             }
             finally
@@ -608,22 +537,16 @@ namespace ntfysh_client
             using var dialog = new Updater.UpdateDownloadDialog();
             dialog.Show(this);
             Enabled = false;
-
             try
             {
                 bool downloaded = await dialog.RunDownloadAsync((progress, token) =>
                     Updater.UpdaterService.DownloadAndExtractAsync(
                         result.AssetDownloadUrl!, result.AssetSizeBytes, progress, token));
-
-                if (!downloaded) return; // 用户取消
-
+                if (!downloaded) return;
                 MessageBox.Show(this,
                     LocalizationHelper.GetGlobalString("UpdateChecker.ReadyToApply"),
                     "ntfy pusher", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // 启动替换脚本，脚本会在本程序退出后覆盖文件并重启
                 Updater.UpdaterService.ApplyUpdateAndExit(dialog.NewFilesDirectory!);
-
                 _trueExit = true;
                 Close();
             }
@@ -648,17 +571,14 @@ namespace ntfysh_client
 
         private void notificationTopics_SelectedIndexChanged(object sender, EventArgs e)
         {
-
         }
 
         private void fileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-
         }
     }
 
@@ -677,8 +597,10 @@ namespace ntfysh_client
                 Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
             }
         }
+
         private static ResourceManager _globalResMgr =
             new ResourceManager("ntfysh_client.Properties.Resources", Assembly.GetExecutingAssembly());
+
         public static string GetGlobalString(string key)
         {
             try
