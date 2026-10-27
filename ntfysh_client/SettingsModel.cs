@@ -7,7 +7,6 @@ namespace ntfysh_client
             NativeWindows,
             CustomTray
         }
-
         public uint Revision { get; set; }
         public decimal Timeout { get; set; }
         public decimal ReconnectAttempts { get; set; }
@@ -19,6 +18,10 @@ namespace ntfysh_client
         public bool NativeNotificationsAutoCopyToClipboard { get; set; }
         public bool AutoStartEnabled { get; set; }
         public bool AutoStartSilent { get; set; }
-        public string Language { get; set; } = "zh-CN"; // 默认中文
+        public string Language { get; set; } = "zh‑CN";
+
+        // 记忆上次订阅服务器与BearerToken
+        public string LastUsedServer { get; set; } = "https://ntfy.sh";
+        public string LastUsedBearerToken { get; set; } = "";
     }
 }
