@@ -23,8 +23,6 @@ namespace ntfysh_client
         private readonly NotificationListener _notificationListener;
         private bool _startInTray;
         private bool _trueExit;
-        private NotificationDialog? _notificationDialog;
-        private bool _updateCheckInProgress;
         private readonly Dictionary<string, string> _toastMessages = new Dictionary<string, string>();
 
         public MainForm(NotificationListener notificationListener, bool startInTray = false)
@@ -73,7 +71,6 @@ namespace ntfysh_client
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoadTopics();
-            _notificationDialog = new NotificationDialog();
         }
 
         protected override void SetVisibleCore(bool value)
@@ -129,46 +126,31 @@ namespace ntfysh_client
             };
 
             string finalTitle = string.IsNullOrWhiteSpace(e.Title) ? $"{e.Sender.TopicId}@{e.Sender.ServerUrl}" : e.Title;
-            if (Program.Settings.NotificationsMethod == SettingsModel.NotificationsType.NativeWindows)
+            string tag = Guid.NewGuid().ToString();
+            _toastMessages[tag] = e.Message;
+            if (Program.Settings.NativeNotificationsAutoCopyToClipboard)
             {
-                string tag = Guid.NewGuid().ToString();
-                _toastMessages[tag] = e.Message;
-                if (Program.Settings.NativeNotificationsAutoCopyToClipboard)
-                {
-                    CopyToClipboard(e.Message);
-                }
-                string buttonText = Program.Settings.NativeNotificationsAutoCopyToClipboard
-                    ? "已自动复制到剪切板"
-                    : "复制内容";
+                CopyToClipboard(e.Message);
+            }
+            string buttonText = Program.Settings.NativeNotificationsAutoCopyToClipboard
+                ? "已自动复制到剪切板"
+                : "复制内容";
 
-                new ToastContentBuilder()
-                    .AddText(finalTitle)
-                    .AddText(e.Message)
-                    .AddButton(new ToastButton()
-                        .SetContent(buttonText)
-                        .AddArgument("action", "copy")
-                        .AddArgument("tag", tag)
-                        .SetBackgroundActivation())
-                    .SetToastDuration(ToastDuration.Short)
-                    .SetToastScenario(priorityIcon == ToolTipIcon.Error ? ToastScenario.Alarm : ToastScenario.Default)
-                    .Show(toast =>
-                    {
-                        double timeoutSeconds = (double)Convert.ToDecimal(Program.Settings.Timeout);
-                        toast.ExpirationTime = DateTime.Now.AddSeconds(timeoutSeconds);
-                    });
-            }
-            else
-            {
-                _notificationDialog?.ShowNotification(
-                    title: finalTitle,
-                    message: e.Message,
-                    timeoutSeconds: (int)Program.Settings.Timeout,
-                    icon: priorityIcon,
-                    showTimeOutBar: Program.Settings.CustomTrayNotificationsShowTimeoutBar,
-                    showInDarkMode: Program.Settings.CustomTrayNotificationsShowInDarkMode,
-                    playNotificationSound: Program.Settings.CustomTrayNotificationsPlayDefaultWindowsSound
-                );
-            }
+            new ToastContentBuilder()
+                .AddText(finalTitle)
+                .AddText(e.Message)
+                .AddButton(new ToastButton()
+                    .SetContent(buttonText)
+                    .AddArgument("action", "copy")
+                    .AddArgument("tag", tag)
+                    .SetBackgroundActivation())
+                .SetToastDuration(ToastDuration.Short)
+                .SetToastScenario(priorityIcon == ToolTipIcon.Error ? ToastScenario.Alarm : ToastScenario.Default)
+                .Show(toast =>
+                {
+                    double timeoutSeconds = (double)Convert.ToDecimal(Program.Settings.Timeout);
+                    toast.ExpirationTime = DateTime.Now.AddSeconds(timeoutSeconds);
+                });
         }
 
         private void OnConnectionMultiAttemptFailure(NotificationListener sender, SubscribedTopic topic)
@@ -261,16 +243,11 @@ namespace ntfysh_client
             using SettingsDialog dialog = new();
             dialog.ReconnectAttempts = Program.Settings.ReconnectAttempts;
             dialog.ReconnectAttemptDelay = Program.Settings.ReconnectAttemptDelay;
-            dialog.UseNativeWindowsNotifications = Program.Settings.NotificationsMethod == SettingsModel.NotificationsType.NativeWindows;
-            dialog.UseCustomTrayNotifications = Program.Settings.NotificationsMethod == SettingsModel.NotificationsType.CustomTray;
-            dialog.CustomTrayNotificationsShowTimeoutBar = Program.Settings.CustomTrayNotificationsShowTimeoutBar;
-            dialog.CustomTrayNotificationsShowInDarkMode = Program.Settings.CustomTrayNotificationsShowInDarkMode;
-            dialog.CustomTrayNotificationsPlayDefaultWindowsSound = Program.Settings.CustomTrayNotificationsPlayDefaultWindowsSound;
+            dialog.UseNativeWindowsNotifications = true;
             dialog.Timeout = Program.Settings.Timeout;
             dialog.NativeNotificationsAutoCopyToClipboard = Program.Settings.NativeNotificationsAutoCopyToClipboard;
             dialog.AutoStartEnabled = Program.Settings.AutoStartEnabled;
             dialog.AutoStartSilent = Program.Settings.AutoStartSilent;
-            dialog.Language = Program.Settings.Language;
 
             DialogResult result = dialog.ShowDialog();
             if (result != DialogResult.OK) return;
@@ -278,23 +255,12 @@ namespace ntfysh_client
             Program.Settings.Timeout = dialog.Timeout;
             Program.Settings.ReconnectAttempts = dialog.ReconnectAttempts;
             Program.Settings.ReconnectAttemptDelay = dialog.ReconnectAttemptDelay;
-            Program.Settings.NotificationsMethod = dialog.UseNativeWindowsNotifications ? SettingsModel.NotificationsType.NativeWindows : SettingsModel.NotificationsType.CustomTray;
-            Program.Settings.CustomTrayNotificationsShowTimeoutBar = dialog.CustomTrayNotificationsShowTimeoutBar;
-            Program.Settings.CustomTrayNotificationsShowInDarkMode = dialog.CustomTrayNotificationsShowInDarkMode;
-            Program.Settings.CustomTrayNotificationsPlayDefaultWindowsSound = dialog.CustomTrayNotificationsPlayDefaultWindowsSound;
             Program.Settings.NativeNotificationsAutoCopyToClipboard = dialog.NativeNotificationsAutoCopyToClipboard;
             Program.Settings.AutoStartEnabled = dialog.AutoStartEnabled;
             Program.Settings.AutoStartSilent = dialog.AutoStartSilent;
-            Program.Settings.Language = dialog.Language;
 
             UpdateAutoStart();
             SettingsManager.SaveSettings(Program.Settings);
-
-            string currentCulture = Thread.CurrentThread.CurrentUICulture.Name;
-            if (!string.Equals(currentCulture, dialog.Language, StringComparison.OrdinalIgnoreCase))
-            {
-                MessageBox.Show("语言更改将在程序重启后生效。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
         }
 
         private void notificationTopics_SelectedValueChanged(object sender, EventArgs e)
@@ -459,108 +425,6 @@ namespace ntfysh_client
         {
             _trueExit = true;
             Close();
-        }
-
-        private void ntfyshWebsiteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Process.Start(new ProcessStartInfo("https://ntfy.sh/")
-            {
-                UseShellExecute = true
-            });
-        }
-
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using AboutBox d = new AboutBox();
-            d.ShowDialog();
-        }
-
-        private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            return;
-        }
-
-        private async Task CheckForUpdatesAsync(bool interactive)
-        {
-            if (_updateCheckInProgress) return;
-            _updateCheckInProgress = true;
-            try
-            {
-                Updater.UpdateCheckResult result = await Updater.UpdateChecker.CheckForUpdatesAsync();
-                if (!result.CheckSucceeded)
-                {
-                    if (interactive)
-                    {
-                        MessageBox.Show(this,
-                            string.Format(LocalizationHelper.GetGlobalString("UpdateChecker.CheckFailed"), result.ErrorMessage),
-                            "ntfy pusher", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                    return;
-                }
-                if (!result.UpdateAvailable)
-                {
-                    if (interactive)
-                    {
-                        MessageBox.Show(this,
-                            string.Format(LocalizationHelper.GetGlobalString("UpdateChecker.UpToDate"), result.CurrentVersion),
-                            "ntfy pusher", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    return;
-                }
-                if (string.IsNullOrEmpty(result.AssetDownloadUrl))
-                {
-                    if (interactive)
-                    {
-                        MessageBox.Show(this,
-                            string.Format(LocalizationHelper.GetGlobalString("UpdateChecker.NoDownloadAsset"), result.LatestVersion),
-                            "ntfy pusher", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                    return;
-                }
-                string notes = result.ReleaseNotes ?? "";
-                if (notes.Length > 2000) notes = notes.Substring(0, 2000) + "\n…";
-                DialogResult answer = MessageBox.Show(this,
-                    string.Format(LocalizationHelper.GetGlobalString("UpdateChecker.NewVersionAvailable"),
-                        result.LatestVersion, result.CurrentVersion, notes),
-                    "ntfy pusher", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-                if (answer != DialogResult.Yes) return;
-                await DownloadAndApplyUpdateAsync(result);
-            }
-            finally
-            {
-                _updateCheckInProgress = false;
-            }
-        }
-
-        private async Task DownloadAndApplyUpdateAsync(Updater.UpdateCheckResult result)
-        {
-            using var dialog = new Updater.UpdateDownloadDialog();
-            dialog.Show(this);
-            Enabled = false;
-            try
-            {
-                bool downloaded = await dialog.RunDownloadAsync((progress, token) =>
-                    Updater.UpdaterService.DownloadAndExtractAsync(
-                        result.AssetDownloadUrl!, result.AssetSizeBytes, progress, token));
-                if (!downloaded) return;
-                MessageBox.Show(this,
-                    LocalizationHelper.GetGlobalString("UpdateChecker.ReadyToApply"),
-                    "ntfy pusher", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Updater.UpdaterService.ApplyUpdateAndExit(dialog.NewFilesDirectory!);
-                _trueExit = true;
-                Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(this,
-                    string.Format(LocalizationHelper.GetGlobalString("UpdateChecker.DownloadFailed"), ex.Message),
-                    "ntfy pusher", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                dialog.Close();
-                Enabled = true;
-            }
         }
 
         private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
