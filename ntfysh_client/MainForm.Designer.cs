@@ -37,7 +37,6 @@ namespace ntfysh_client
             notifyIcon = new System.Windows.Forms.NotifyIcon(components);
             trayContextMenu = new System.Windows.Forms.ContextMenuStrip(components);
             showControlWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            checkForUpdatesTrayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             topicsContextMenu = new System.Windows.Forms.ContextMenuStrip(components);
             copyTopicNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,11 +45,6 @@ namespace ntfysh_client
             fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            ntfyshWebsiteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             label1 = new System.Windows.Forms.Label();
             trayContextMenu.SuspendLayout();
             topicsContextMenu.SuspendLayout();
@@ -93,7 +87,7 @@ namespace ntfysh_client
             // 
             resources.ApplyResources(trayContextMenu, "trayContextMenu");
             trayContextMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
-            trayContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { showControlWindowToolStripMenuItem, checkForUpdatesTrayToolStripMenuItem, exitToolStripMenuItem });
+            trayContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { showControlWindowToolStripMenuItem, exitToolStripMenuItem });
             trayContextMenu.Name = "trayContextMenu";
             // 
             // showControlWindowToolStripMenuItem
@@ -101,12 +95,6 @@ namespace ntfysh_client
             resources.ApplyResources(showControlWindowToolStripMenuItem, "showControlWindowToolStripMenuItem");
             showControlWindowToolStripMenuItem.Name = "showControlWindowToolStripMenuItem";
             showControlWindowToolStripMenuItem.Click += showControlWindowToolStripMenuItem_Click;
-            // 
-            // checkForUpdatesTrayToolStripMenuItem
-            // 
-            resources.ApplyResources(checkForUpdatesTrayToolStripMenuItem, "checkForUpdatesTrayToolStripMenuItem");
-            checkForUpdatesTrayToolStripMenuItem.Name = "checkForUpdatesTrayToolStripMenuItem";
-            checkForUpdatesTrayToolStripMenuItem.Click += checkForUpdatesToolStripMenuItem_Click;
             // 
             // exitToolStripMenuItem
             // 
@@ -139,7 +127,7 @@ namespace ntfysh_client
             resources.ApplyResources(menuStrip1, "menuStrip1");
             menuStrip1.BackColor = System.Drawing.Color.White;
             menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { fileToolStripMenuItem, helpToolStripMenuItem });
+            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { fileToolStripMenuItem });
             menuStrip1.Name = "menuStrip1";
             // 
             // fileToolStripMenuItem
@@ -160,35 +148,6 @@ namespace ntfysh_client
             resources.ApplyResources(settingsToolStripMenuItem, "settingsToolStripMenuItem");
             settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
             settingsToolStripMenuItem.Click += settingsToolStripMenuItem_Click;
-            // 
-            // helpToolStripMenuItem
-            // 
-            resources.ApplyResources(helpToolStripMenuItem, "helpToolStripMenuItem");
-            helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { checkForUpdatesToolStripMenuItem, ntfyshWebsiteToolStripMenuItem, toolStripMenuItem1, aboutToolStripMenuItem });
-            helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            // 
-            // checkForUpdatesToolStripMenuItem
-            // 
-            resources.ApplyResources(checkForUpdatesToolStripMenuItem, "checkForUpdatesToolStripMenuItem");
-            checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            checkForUpdatesToolStripMenuItem.Click += checkForUpdatesToolStripMenuItem_Click;
-            // 
-            // ntfyshWebsiteToolStripMenuItem
-            // 
-            resources.ApplyResources(ntfyshWebsiteToolStripMenuItem, "ntfyshWebsiteToolStripMenuItem");
-            ntfyshWebsiteToolStripMenuItem.Name = "ntfyshWebsiteToolStripMenuItem";
-            ntfyshWebsiteToolStripMenuItem.Click += ntfyshWebsiteToolStripMenuItem_Click;
-            // 
-            // toolStripMenuItem1
-            // 
-            resources.ApplyResources(toolStripMenuItem1, "toolStripMenuItem1");
-            toolStripMenuItem1.Name = "toolStripMenuItem1";
-            // 
-            // aboutToolStripMenuItem
-            // 
-            resources.ApplyResources(aboutToolStripMenuItem, "aboutToolStripMenuItem");
-            aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
             // 
             // label1
             // 
@@ -237,15 +196,9 @@ namespace ntfysh_client
         private System.Windows.Forms.ToolStripMenuItem copyTopicFullAddressToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem ntfyshWebsiteToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem checkForUpdatesTrayToolStripMenuItem;
     }
 }
 
