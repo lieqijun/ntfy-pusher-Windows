@@ -2,23 +2,13 @@ namespace ntfysh_client
 {
     public class SettingsModel
     {
-        public enum NotificationsType
-        {
-            NativeWindows,
-            CustomTray
-        }
         public uint Revision { get; set; }
         public decimal Timeout { get; set; }
         public decimal ReconnectAttempts { get; set; }
         public decimal ReconnectAttemptDelay { get; set; }
-        public NotificationsType NotificationsMethod { get; set; }
-        public bool CustomTrayNotificationsShowTimeoutBar { get; set; }
-        public bool CustomTrayNotificationsShowInDarkMode { get; set; }
-        public bool CustomTrayNotificationsPlayDefaultWindowsSound { get; set; }
         public bool NativeNotificationsAutoCopyToClipboard { get; set; }
         public bool AutoStartEnabled { get; set; }
         public bool AutoStartSilent { get; set; }
-        public string Language { get; set; } = "zh‑CN";
 
         // 记忆上次订阅服务器与BearerToken
         public string LastUsedServer { get; set; } = "https://ntfy.sh";
