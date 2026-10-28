@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -50,7 +50,7 @@ namespace ntfysh_client
             Settings = SettingsManager.LoadSettings();
 
             // 2. 应用多语言
-            LocalizationHelper.ApplyLanguage(Settings.Language);
+            LocalizationHelper.ApplyLanguage("zh-CN");
 
             // 3. 启动界面
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
