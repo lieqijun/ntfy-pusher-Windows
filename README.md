@@ -39,11 +39,7 @@ ntfy.sh Windows 是一款轻量级的推送通知客户端，用于接收通过�
 ### -m & --allow-multiple-instances
 绕过实例检查，允许多个 ntfy.sh Windows 实例同时启动
 
-- **原理**：调用 [GitHub Releases API](https://api.github.com/repos/H2O-MERO/ntfy-pusher-Windows/releases/latest) 获取最新版本号，与本机程序集版本比较；
-- 发现新版本后，下载 Release 中附带的 zip 更新包并显示下载进度；
-- 下载完成后程序自动退出，由临时脚本替换程序文件并**沿用原启动参数重新启动**（更新全程无需人工干预）；
-- 已是最新版本时手动检查会提示“当前已是最新版本”；检查失败（如无网络）不影响正常使用；
-- 运行要求与主程序一致：系统需安装 **.NET 6 Desktop Runtime**。
+- 运行要求与主程序一致：系统需安装 **.NET 8 Desktop Runtime**。
 
 ### 如何发布新版本（维护者）
 1. 推送一个形如 `v1.1.0` 的 tag（版本号以 tag 为准，`v` 前缀可省略）：
