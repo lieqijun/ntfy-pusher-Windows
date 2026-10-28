@@ -41,27 +41,14 @@ namespace ntfysh_client
             reconnectAttemptsLabel = new System.Windows.Forms.Label();
             reconnectAttemptDelay = new System.Windows.Forms.NumericUpDown();
             reconnectAttemptDelayLabel = new System.Windows.Forms.Label();
-            nativeVersusCustomNotificationsGroupBox = new System.Windows.Forms.GroupBox();
-            useCustomTrayNotifications = new System.Windows.Forms.RadioButton();
-            useNativeWindowsNotifications = new System.Windows.Forms.RadioButton();
-            groupCustomNotificationSettings = new System.Windows.Forms.GroupBox();
-            customNotificationsPlayWindowsNotificationAudio = new System.Windows.Forms.CheckBox();
-            customNotificationsShowInDarkMode = new System.Windows.Forms.CheckBox();
-            customNotificationsShowTimeoutBar = new System.Windows.Forms.CheckBox();
-            label1 = new System.Windows.Forms.Label();
-            groupNativeNotification = new System.Windows.Forms.GroupBox();
+            useNativeWindowsNotifications = new System.Windows.Forms.CheckBox();
             nativeNotificationAutoCopy = new System.Windows.Forms.CheckBox();
             checkBoxAutoStart = new System.Windows.Forms.CheckBox();
             checkBoxSilentStart = new System.Windows.Forms.CheckBox();
-            comboBoxLanguage = new System.Windows.Forms.ComboBox();
-            languageLabel = new System.Windows.Forms.Label();
             buttonPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)timeout).BeginInit();
             ((System.ComponentModel.ISupportInitialize)reconnectAttempts).BeginInit();
             ((System.ComponentModel.ISupportInitialize)reconnectAttemptDelay).BeginInit();
-            nativeVersusCustomNotificationsGroupBox.SuspendLayout();
-            groupCustomNotificationSettings.SuspendLayout();
-            groupNativeNotification.SuspendLayout();
             SuspendLayout();
             // 
             // buttonPanel
@@ -120,69 +107,12 @@ namespace ntfysh_client
             resources.ApplyResources(reconnectAttemptDelayLabel, "reconnectAttemptDelayLabel");
             reconnectAttemptDelayLabel.Name = "reconnectAttemptDelayLabel";
             // 
-            // nativeVersusCustomNotificationsGroupBox
-            // 
-            resources.ApplyResources(nativeVersusCustomNotificationsGroupBox, "nativeVersusCustomNotificationsGroupBox");
-            nativeVersusCustomNotificationsGroupBox.Controls.Add(useCustomTrayNotifications);
-            nativeVersusCustomNotificationsGroupBox.Controls.Add(useNativeWindowsNotifications);
-            nativeVersusCustomNotificationsGroupBox.Name = "nativeVersusCustomNotificationsGroupBox";
-            nativeVersusCustomNotificationsGroupBox.TabStop = false;
-            // 
-            // useCustomTrayNotifications
-            // 
-            resources.ApplyResources(useCustomTrayNotifications, "useCustomTrayNotifications");
-            useCustomTrayNotifications.Name = "useCustomTrayNotifications";
-            useCustomTrayNotifications.TabStop = true;
-            useCustomTrayNotifications.UseVisualStyleBackColor = true;
-            useCustomTrayNotifications.CheckedChanged += UseCustomTrayNotifications_CheckedChanged;
-            // 
             // useNativeWindowsNotifications
             // 
             resources.ApplyResources(useNativeWindowsNotifications, "useNativeWindowsNotifications");
             useNativeWindowsNotifications.Name = "useNativeWindowsNotifications";
             useNativeWindowsNotifications.TabStop = true;
             useNativeWindowsNotifications.UseVisualStyleBackColor = true;
-            // 
-            // groupCustomNotificationSettings
-            // 
-            resources.ApplyResources(groupCustomNotificationSettings, "groupCustomNotificationSettings");
-            groupCustomNotificationSettings.Controls.Add(customNotificationsPlayWindowsNotificationAudio);
-            groupCustomNotificationSettings.Controls.Add(customNotificationsShowInDarkMode);
-            groupCustomNotificationSettings.Controls.Add(customNotificationsShowTimeoutBar);
-            groupCustomNotificationSettings.Name = "groupCustomNotificationSettings";
-            groupCustomNotificationSettings.TabStop = false;
-            // 
-            // customNotificationsPlayWindowsNotificationAudio
-            // 
-            resources.ApplyResources(customNotificationsPlayWindowsNotificationAudio, "customNotificationsPlayWindowsNotificationAudio");
-            customNotificationsPlayWindowsNotificationAudio.Name = "customNotificationsPlayWindowsNotificationAudio";
-            customNotificationsPlayWindowsNotificationAudio.UseVisualStyleBackColor = true;
-            customNotificationsPlayWindowsNotificationAudio.CheckedChanged += customNotificationsPlayWindowsNotificationAudio_CheckedChanged;
-            // 
-            // customNotificationsShowInDarkMode
-            // 
-            resources.ApplyResources(customNotificationsShowInDarkMode, "customNotificationsShowInDarkMode");
-            customNotificationsShowInDarkMode.Name = "customNotificationsShowInDarkMode";
-            customNotificationsShowInDarkMode.UseVisualStyleBackColor = true;
-            // 
-            // customNotificationsShowTimeoutBar
-            // 
-            resources.ApplyResources(customNotificationsShowTimeoutBar, "customNotificationsShowTimeoutBar");
-            customNotificationsShowTimeoutBar.Name = "customNotificationsShowTimeoutBar";
-            customNotificationsShowTimeoutBar.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            resources.ApplyResources(label1, "label1");
-            label1.Name = "label1";
-            // 
-            // groupNativeNotification
-            // 
-            resources.ApplyResources(groupNativeNotification, "groupNativeNotification");
-            groupNativeNotification.Controls.Add(nativeNotificationAutoCopy);
-            groupNativeNotification.Name = "groupNativeNotification";
-            groupNativeNotification.TabStop = false;
-            groupNativeNotification.Enter += groupBox1_Enter;
             // 
             // nativeNotificationAutoCopy
             // 
@@ -203,31 +133,16 @@ namespace ntfysh_client
             checkBoxSilentStart.Name = "checkBoxSilentStart";
             checkBoxSilentStart.UseVisualStyleBackColor = true;
             // 
-            // comboBoxLanguage
-            // 
-            resources.ApplyResources(comboBoxLanguage, "comboBoxLanguage");
-            comboBoxLanguage.Name = "comboBoxLanguage";
-            comboBoxLanguage.SelectedIndexChanged += languageComboBox_SelectedIndexChanged;
-            // 
-            // languageLabel
-            // 
-            resources.ApplyResources(languageLabel, "languageLabel");
-            languageLabel.Name = "languageLabel";
-            languageLabel.Click += label3_Click;
             // 
             // SettingsDialog
             // 
             resources.ApplyResources(this, "$this");
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.White;
-            Controls.Add(languageLabel);
-            Controls.Add(comboBoxLanguage);
+            Controls.Add(useNativeWindowsNotifications);
+            Controls.Add(nativeNotificationAutoCopy);
             Controls.Add(checkBoxAutoStart);
             Controls.Add(checkBoxSilentStart);
-            Controls.Add(groupNativeNotification);
-            Controls.Add(label1);
-            Controls.Add(groupCustomNotificationSettings);
-            Controls.Add(nativeVersusCustomNotificationsGroupBox);
             Controls.Add(reconnectAttemptDelay);
             Controls.Add(reconnectAttemptDelayLabel);
             Controls.Add(reconnectAttempts);
@@ -246,12 +161,6 @@ namespace ntfysh_client
             ((System.ComponentModel.ISupportInitialize)timeout).EndInit();
             ((System.ComponentModel.ISupportInitialize)reconnectAttempts).EndInit();
             ((System.ComponentModel.ISupportInitialize)reconnectAttemptDelay).EndInit();
-            nativeVersusCustomNotificationsGroupBox.ResumeLayout(false);
-            nativeVersusCustomNotificationsGroupBox.PerformLayout();
-            groupCustomNotificationSettings.ResumeLayout(false);
-            groupCustomNotificationSettings.PerformLayout();
-            groupNativeNotification.ResumeLayout(false);
-            groupNativeNotification.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -269,20 +178,9 @@ namespace ntfysh_client
         private System.Windows.Forms.Label reconnectAttemptsLabel;
         private System.Windows.Forms.NumericUpDown reconnectAttemptDelay;
         private System.Windows.Forms.Label reconnectAttemptDelayLabel;
-        private System.Windows.Forms.GroupBox nativeVersusCustomNotificationsGroupBox;
-        private System.Windows.Forms.RadioButton useCustomTrayNotifications;
-        private System.Windows.Forms.RadioButton useNativeWindowsNotifications;
-        private System.Windows.Forms.GroupBox groupCustomNotificationSettings;
-        private System.Windows.Forms.CheckBox customNotificationsShowTimeoutBar;
-        private System.Windows.Forms.CheckBox customNotificationsShowInDarkMode;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox customNotificationsPlayWindowsNotificationAudio;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.GroupBox groupNativeNotification;
+        private System.Windows.Forms.CheckBox useNativeWindowsNotifications;
         private System.Windows.Forms.CheckBox nativeNotificationAutoCopy;
         private System.Windows.Forms.CheckBox checkBoxAutoStart;
         private System.Windows.Forms.CheckBox checkBoxSilentStart;
-        private System.Windows.Forms.ComboBox comboBoxLanguage; 
-        private System.Windows.Forms.Label languageLabel;
     }
 }
