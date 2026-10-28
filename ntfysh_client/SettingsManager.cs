@@ -20,14 +20,9 @@ namespace ntfysh_client
             Timeout = 5,
             ReconnectAttempts = 10,
             ReconnectAttemptDelay = 3,
-            NotificationsMethod = SettingsModel.NotificationsType.NativeWindows,
-            CustomTrayNotificationsShowTimeoutBar = true,
-            CustomTrayNotificationsShowInDarkMode = false,
-            CustomTrayNotificationsPlayDefaultWindowsSound = true,
             NativeNotificationsAutoCopyToClipboard = false,
             AutoStartEnabled = false,
-            AutoStartSilent = false,
-            Language = "zh-CN"
+            AutoStartSilent = false
         };
 
         private static void MergeSettingsRevisions(SettingsModel older, SettingsModel newer)
@@ -37,18 +32,10 @@ namespace ntfysh_client
                 older.ReconnectAttempts = newer.ReconnectAttempts;
                 older.ReconnectAttemptDelay = newer.ReconnectAttemptDelay;
             }
-            if (older.Revision < 2)
-            {
-                older.NotificationsMethod = newer.NotificationsMethod;
-                older.CustomTrayNotificationsShowTimeoutBar = newer.CustomTrayNotificationsShowTimeoutBar;
-                older.CustomTrayNotificationsShowInDarkMode = newer.CustomTrayNotificationsShowInDarkMode;
-                older.CustomTrayNotificationsPlayDefaultWindowsSound = newer.CustomTrayNotificationsPlayDefaultWindowsSound;
-            }
             if (older.Revision < 3)
             {
                 older.NativeNotificationsAutoCopyToClipboard = newer.NativeNotificationsAutoCopyToClipboard;
                 older.AutoStartEnabled = newer.AutoStartEnabled;
-                older.Language = newer.Language;
             }
             if (older.Revision < 4)
             {
