@@ -13,23 +13,10 @@ namespace ntfysh_client
             set => timeout.Value = value;
         }
 
-        public decimal ReconnectAttempts
-        {
-            get => reconnectAttempts.Value;
-            set => reconnectAttempts.Value = value;
-        }
-
         public decimal ReconnectAttemptDelay
         {
             get => reconnectAttemptDelay.Value;
             set => reconnectAttemptDelay.Value = value;
-        }
-
-        #region: Native notifications option
-        public bool UseNativeWindowsNotifications
-        {
-            get => useNativeWindowsNotifications.Checked;
-            set => useNativeWindowsNotifications.Checked = value;
         }
 
         public bool AutoStartEnabled
@@ -43,7 +30,6 @@ namespace ntfysh_client
             get => checkBoxSilentStart.Checked;
             set => checkBoxSilentStart.Checked = value;
         }
-        #endregion
 
         #region: Native notification options
         public bool NativeNotificationsAutoCopyToClipboard
