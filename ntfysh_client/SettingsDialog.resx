@@ -28,7 +28,7 @@
                 <xs:element name="value" type="xsd:string" minOccurs="0" ns1:Ordinal="1" />
                 <xs:element name="comment" type="xsd:string" minOccurs="0" ns1:Ordinal="2" />
               </xs:sequence>
-              <xs:attribute name="name" type="xsd:string" use="required" ns1:Ordinal="1" />
+              <xs:attribute name="name" use="required" ns1:Ordinal="1" />
               <xs:attribute name="type" type="xsd:string" ns1:Ordinal="3" />
               <xs:attribute name="mimetype" type="xsd:string" ns1:Ordinal="4" />
               <xs:attribute ref="xml:space" />
@@ -39,7 +39,7 @@
               <xs:sequence>
                 <xs:element name="value" type="xsd:string" minOccurs="0" ns1:Ordinal="1" />
               </xs:sequence>
-              <xs:attribute name="name" type="xsd:string" use="required" />
+              <xs:attribute name="name" use="required" />
             </xs:complexType>
           </xs:element>
         </xs:choice>
@@ -60,9 +60,6 @@
   </resheader>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="&gt;&gt;reconnectAttempts.Name" xml:space="preserve">
-    <value>reconnectAttempts</value>
-  </data>
   <data name="&gt;&gt;timeout.Name" xml:space="preserve">
     <value>timeout</value>
   </data>
@@ -102,14 +99,8 @@
   <data name="&gt;&gt;buttonPanel.Name" xml:space="preserve">
     <value>buttonPanel</value>
   </data>
-  <data name="&gt;&gt;useNativeWindowsNotifications.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="nativeNotificationAutoCopy.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
-  </data>
-  <data name="useNativeWindowsNotifications.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
   </data>
   <data name="&gt;&gt;reconnectAttemptDelayLabel.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -123,12 +114,6 @@
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>7, 17</value>
   </data>
-  <data name="&gt;&gt;reconnectAttemptsLabel.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="useNativeWindowsNotifications.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 218</value>
-  </data>
   <data name="saveButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 26</value>
   </data>
@@ -136,25 +121,16 @@
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="nativeNotificationAutoCopy.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 248</value>
+    <value>17, 136</value>
   </data>
-  <data name="reconnectAttempts.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;reconnectAttempts.ZOrder" xml:space="preserve">
-    <value>10</value>
+  <data name="&gt;&gt;reconnectAttemptDelayLabel.Name" xml:space="preserve">
+    <value>reconnectAttemptDelayLabel</value>
   </data>
   <data name="reconnectAttemptDelayLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 164</value>
+    <value>11, 80</value>
   </data>
   <data name="checkBoxAutoStart.Text" xml:space="preserve">
     <value>开机自动启动</value>
-  </data>
-  <data name="&gt;&gt;useNativeWindowsNotifications.Name" xml:space="preserve">
-    <value>useNativeWindowsNotifications</value>
-  </data>
-  <data name="useNativeWindowsNotifications.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
   </data>
   <data name="&gt;&gt;checkBoxAutoStart.Name" xml:space="preserve">
     <value>checkBoxAutoStart</value>
@@ -177,11 +153,8 @@
   <data name="&gt;&gt;saveButton.Name" xml:space="preserve">
     <value>saveButton</value>
   </data>
-  <data name="reconnectAttempts.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
-  </data>
-  <data name="&gt;&gt;reconnectAttemptDelayLabel.Name" xml:space="preserve">
-    <value>reconnectAttemptDelayLabel</value>
+  <data name="&gt;&gt;reconnectAttemptDelayLabel.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="cancelButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 26</value>
@@ -191,9 +164,6 @@
   </data>
   <data name="reconnectAttemptDelayLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 0, 4, 0</value>
-  </data>
-  <data name="reconnectAttemptsLabel.Text" xml:space="preserve">
-    <value>最大重新连接重试尝试次数（需要重新启动）：</value>
   </data>
   <data name="&gt;&gt;buttonPanel.Parent" xml:space="preserve">
     <value>$this</value>
@@ -218,15 +188,6 @@
   </data>
   <data name="&gt;&gt;timeoutLabel.Parent" xml:space="preserve">
     <value>$this</value>
-  </data>
-  <data name="reconnectAttempts.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 135</value>
-  </data>
-  <data name="&gt;&gt;reconnectAttemptsLabel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="reconnectAttempts.Size" type="System.Drawing.Size, System.Drawing">
-    <value>506, 23</value>
   </data>
   <data name="reconnectAttemptDelayLabel.Text" xml:space="preserve">
     <value>尝试之间的延迟（秒，需要重新启动）：</value>
@@ -255,47 +216,26 @@
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;reconnectAttemptsLabel.Name" xml:space="preserve">
-    <value>reconnectAttemptsLabel</value>
-  </data>
   <data name="&gt;&gt;nativeNotificationAutoCopy.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="timeoutLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 0, 4, 0</value>
   </data>
-  <data name="useNativeWindowsNotifications.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 21</value>
-  </data>
   <data name="&gt;&gt;nativeNotificationAutoCopy.Name" xml:space="preserve">
     <value>nativeNotificationAutoCopy</value>
   </data>
   <data name="timeout.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 84</value>
-  </data>
-  <data name="reconnectAttemptsLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>260, 17</value>
-  </data>
-  <data name="&gt;&gt;reconnectAttempts.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>12, 42</value>
   </data>
   <data name="checkBoxAutoStart.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 278</value>
+    <value>17, 166</value>
   </data>
   <data name="buttonPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 4, 4, 4</value>
   </data>
-  <data name="&gt;&gt;useNativeWindowsNotifications.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="useNativeWindowsNotifications.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="reconnectAttemptDelay.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
-  </data>
-  <data name="reconnectAttemptsLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 113</value>
+  <data name="timeoutLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 20</value>
   </data>
   <data name="buttonPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Bottom</value>
@@ -306,9 +246,6 @@
   <data name="cancelButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>363, 18</value>
   </data>
-  <data name="useNativeWindowsNotifications.Text" xml:space="preserve">
-    <value>使用Windows原生通知（推荐）</value>
-  </data>
   <data name="timeout.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 4, 3, 4</value>
   </data>
@@ -316,25 +253,16 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>531, 410</value>
+    <value>531, 285</value>
   </data>
   <data name="reconnectAttemptDelayLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
-  </data>
-  <data name="&gt;&gt;reconnectAttemptDelayLabel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;reconnectAttemptsLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="saveButton.Location" type="System.Drawing.Point, System.Drawing">
     <value>444, 18</value>
   </data>
   <data name="cancelButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 4, 3, 4</value>
-  </data>
-  <data name="reconnectAttemptsLabel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 0, 4, 0</value>
   </data>
   <data name="&gt;&gt;timeout.Type" xml:space="preserve">
     <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -347,18 +275,6 @@
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SettingsDialog</value>
-  </data>
-  <data name="&gt;&gt;reconnectAttempts.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="nativeNotificationAutoCopy.Size" type="System.Drawing.Size, System.Drawing">
-    <value>123, 21</value>
-  </data>
-  <data name="buttonPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 330</value>
-  </data>
-  <data name="timeoutLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 62</value>
   </data>
   <data name="&gt;&gt;timeout.Parent" xml:space="preserve">
     <value>$this</value>
@@ -382,7 +298,7 @@
     <value>506, 23</value>
   </data>
   <data name="reconnectAttemptDelay.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 186</value>
+    <value>11, 102</value>
   </data>
   <data name="cancelButton.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -398,12 +314,6 @@
   </data>
   <data name="reconnectAttemptDelayLabel.Size" type="System.Drawing.Size, System.Drawing">
     <value>224, 17</value>
-  </data>
-  <data name="reconnectAttemptsLabel.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="reconnectAttemptsLabel.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
   </data>
   <data name="&gt;&gt;checkBoxSilentStart.Name" xml:space="preserve">
     <value>checkBoxSilentStart</value>
@@ -421,7 +331,7 @@
     <value>True</value>
   </data>
   <data name="checkBoxSilentStart.Location" type="System.Drawing.Point, System.Drawing">
-    <value>37, 302</value>
+    <value>37, 190</value>
   </data>
   <data name="checkBoxSilentStart.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 4, 3, 4</value>
