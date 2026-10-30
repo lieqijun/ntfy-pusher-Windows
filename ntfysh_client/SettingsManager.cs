@@ -16,9 +16,8 @@ namespace ntfysh_client
 
         private static SettingsModel GetDefaultSettings() => new()
         {
-            Revision = 4,
+            Revision = 5,
             Timeout = 5,
-            ReconnectAttempts = 10,
             ReconnectAttemptDelay = 3,
             NativeNotificationsAutoCopyToClipboard = false,
             AutoStartEnabled = false,
@@ -27,11 +26,6 @@ namespace ntfysh_client
 
         private static void MergeSettingsRevisions(SettingsModel older, SettingsModel newer)
         {
-            if (older.Revision < 1)
-            {
-                older.ReconnectAttempts = newer.ReconnectAttempts;
-                older.ReconnectAttemptDelay = newer.ReconnectAttemptDelay;
-            }
             if (older.Revision < 3)
             {
                 older.NativeNotificationsAutoCopyToClipboard = newer.NativeNotificationsAutoCopyToClipboard;
