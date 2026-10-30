@@ -37,17 +37,13 @@ namespace ntfysh_client
             saveButton = new System.Windows.Forms.Button();
             timeoutLabel = new System.Windows.Forms.Label();
             timeout = new System.Windows.Forms.NumericUpDown();
-            reconnectAttempts = new System.Windows.Forms.NumericUpDown();
-            reconnectAttemptsLabel = new System.Windows.Forms.Label();
             reconnectAttemptDelay = new System.Windows.Forms.NumericUpDown();
             reconnectAttemptDelayLabel = new System.Windows.Forms.Label();
-            useNativeWindowsNotifications = new System.Windows.Forms.CheckBox();
             nativeNotificationAutoCopy = new System.Windows.Forms.CheckBox();
             checkBoxAutoStart = new System.Windows.Forms.CheckBox();
             checkBoxSilentStart = new System.Windows.Forms.CheckBox();
             buttonPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)timeout).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)reconnectAttempts).BeginInit();
             ((System.ComponentModel.ISupportInitialize)reconnectAttemptDelay).BeginInit();
             SuspendLayout();
             // 
@@ -85,17 +81,6 @@ namespace ntfysh_client
             timeout.Maximum = new decimal(new int[] { -1981284353, -1966660860, 0, 0 });
             timeout.Name = "timeout";
             // 
-            // reconnectAttempts
-            // 
-            resources.ApplyResources(reconnectAttempts, "reconnectAttempts");
-            reconnectAttempts.Maximum = new decimal(new int[] { -1981284353, -1966660860, 0, 0 });
-            reconnectAttempts.Name = "reconnectAttempts";
-            // 
-            // reconnectAttemptsLabel
-            // 
-            resources.ApplyResources(reconnectAttemptsLabel, "reconnectAttemptsLabel");
-            reconnectAttemptsLabel.Name = "reconnectAttemptsLabel";
-            // 
             // reconnectAttemptDelay
             // 
             resources.ApplyResources(reconnectAttemptDelay, "reconnectAttemptDelay");
@@ -106,13 +91,6 @@ namespace ntfysh_client
             // 
             resources.ApplyResources(reconnectAttemptDelayLabel, "reconnectAttemptDelayLabel");
             reconnectAttemptDelayLabel.Name = "reconnectAttemptDelayLabel";
-            // 
-            // useNativeWindowsNotifications
-            // 
-            resources.ApplyResources(useNativeWindowsNotifications, "useNativeWindowsNotifications");
-            useNativeWindowsNotifications.Name = "useNativeWindowsNotifications";
-            useNativeWindowsNotifications.TabStop = true;
-            useNativeWindowsNotifications.UseVisualStyleBackColor = true;
             // 
             // nativeNotificationAutoCopy
             // 
@@ -139,14 +117,11 @@ namespace ntfysh_client
             resources.ApplyResources(this, "$this");
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.White;
-            Controls.Add(useNativeWindowsNotifications);
             Controls.Add(nativeNotificationAutoCopy);
             Controls.Add(checkBoxAutoStart);
             Controls.Add(checkBoxSilentStart);
             Controls.Add(reconnectAttemptDelay);
             Controls.Add(reconnectAttemptDelayLabel);
-            Controls.Add(reconnectAttempts);
-            Controls.Add(reconnectAttemptsLabel);
             Controls.Add(timeout);
             Controls.Add(timeoutLabel);
             Controls.Add(buttonPanel);
@@ -159,11 +134,11 @@ namespace ntfysh_client
             Load += SettingsDialog_Load;
             buttonPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)timeout).EndInit();
-            ((System.ComponentModel.ISupportInitialize)reconnectAttempts).EndInit();
             ((System.ComponentModel.ISupportInitialize)reconnectAttemptDelay).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
+
 
 
 
@@ -174,11 +149,8 @@ namespace ntfysh_client
         private System.Windows.Forms.NumericUpDown timeout;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button saveButton;
-        private System.Windows.Forms.NumericUpDown reconnectAttempts;
-        private System.Windows.Forms.Label reconnectAttemptsLabel;
         private System.Windows.Forms.NumericUpDown reconnectAttemptDelay;
         private System.Windows.Forms.Label reconnectAttemptDelayLabel;
-        private System.Windows.Forms.CheckBox useNativeWindowsNotifications;
         private System.Windows.Forms.CheckBox nativeNotificationAutoCopy;
         private System.Windows.Forms.CheckBox checkBoxAutoStart;
         private System.Windows.Forms.CheckBox checkBoxSilentStart;
