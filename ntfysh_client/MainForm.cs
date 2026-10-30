@@ -177,7 +177,7 @@ namespace ntfysh_client
             SettingsManager.SaveSettings(Program.Settings);
 
 
-            int reconnectAttempts = Convert.ToInt32(Math.Ceiling(Program.Settings.ReconnectAttempts));
+            int reconnectAttempts = 0; // 0 = 无限重连，断开后一直尝试重连
             int reconnectAttemptDelay = Convert.ToInt32(Math.Ceiling(Program.Settings.ReconnectAttemptDelay));
 
             string uniqueId = dialog.Unique;
@@ -241,9 +241,7 @@ namespace ntfysh_client
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using SettingsDialog dialog = new();
-            dialog.ReconnectAttempts = Program.Settings.ReconnectAttempts;
             dialog.ReconnectAttemptDelay = Program.Settings.ReconnectAttemptDelay;
-            dialog.UseNativeWindowsNotifications = true;
             dialog.Timeout = Program.Settings.Timeout;
             dialog.NativeNotificationsAutoCopyToClipboard = Program.Settings.NativeNotificationsAutoCopyToClipboard;
             dialog.AutoStartEnabled = Program.Settings.AutoStartEnabled;
@@ -253,7 +251,6 @@ namespace ntfysh_client
             if (result != DialogResult.OK) return;
 
             Program.Settings.Timeout = dialog.Timeout;
-            Program.Settings.ReconnectAttempts = dialog.ReconnectAttempts;
             Program.Settings.ReconnectAttemptDelay = dialog.ReconnectAttemptDelay;
             Program.Settings.NativeNotificationsAutoCopyToClipboard = dialog.NativeNotificationsAutoCopyToClipboard;
             Program.Settings.AutoStartEnabled = dialog.AutoStartEnabled;
@@ -378,7 +375,7 @@ namespace ntfysh_client
                 return;
             }
 
-            int reconnectAttempts = Convert.ToInt32(Math.Ceiling(Program.Settings.ReconnectAttempts));
+            int reconnectAttempts = 0; // 0 = 无限重连，断开后一直尝试重连
             int reconnectAttemptDelay = Convert.ToInt32(Math.Ceiling(Program.Settings.ReconnectAttemptDelay));
 
             foreach (SubscribedTopic topic in topics)
