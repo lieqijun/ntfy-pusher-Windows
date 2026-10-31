@@ -42,8 +42,6 @@ namespace ntfysh_client
             copyTopicNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             copyTopicFullAddressToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             menuStrip1 = new System.Windows.Forms.MenuStrip();
-            fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            exitToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             label1 = new System.Windows.Forms.Label();
             trayContextMenu.SuspendLayout();
@@ -127,21 +125,8 @@ namespace ntfysh_client
             resources.ApplyResources(menuStrip1, "menuStrip1");
             menuStrip1.BackColor = System.Drawing.Color.White;
             menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { fileToolStripMenuItem });
+            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { settingsToolStripMenuItem });
             menuStrip1.Name = "menuStrip1";
-            // 
-            // fileToolStripMenuItem
-            // 
-            resources.ApplyResources(fileToolStripMenuItem, "fileToolStripMenuItem");
-            fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] { exitToolStripMenuItem1, settingsToolStripMenuItem });
-            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            fileToolStripMenuItem.Click += fileToolStripMenuItem_Click;
-            // 
-            // exitToolStripMenuItem1
-            // 
-            resources.ApplyResources(exitToolStripMenuItem1, "exitToolStripMenuItem1");
-            exitToolStripMenuItem1.Name = "exitToolStripMenuItem1";
-            exitToolStripMenuItem1.Click += exitToolStripMenuItem1_Click;
             // 
             // settingsToolStripMenuItem
             // 
@@ -195,9 +180,7 @@ namespace ntfysh_client
         private System.Windows.Forms.ToolStripMenuItem copyTopicNameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyTopicFullAddressToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
     }
 }
