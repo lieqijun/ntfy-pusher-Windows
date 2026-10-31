@@ -1,11 +1,7 @@
 name: Build and Release
 
 on:
-  push:
-    tags:
-      - "v*"
-  release:
-    types: [published, edited]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -23,11 +19,20 @@ jobs:
         with:
           dotnet-version: "8.0.x"
 
+      - name: Compute date-time tag and version
+        id: vars
+        shell: pwsh
+        run: |
+          $dt = Get-Date
+          $tag = $dt.ToString("yyyyMMdd-HHmmss")
+          $version = $dt.ToString("yyyy.MM.dd.HHmmss")
+          echo "tag=$tag" >> $env:GITHUB_OUTPUT
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+
       - name: Publish (win-x64, framework-dependent)
         shell: pwsh
         run: |
-          $version = "${{ github.ref_name }}".TrimStart('v')
-          dotnet publish ntfysh_client/ntfysh_client.csproj -c Release -r win-x64 --self-contained false -p:Version=$version -p:DebugType=none -p:DebugSymbols=false -o publish/win-x64
+          dotnet publish ntfysh_client/ntfysh_client.csproj -c Release -r win-x64 --self-contained false -p:Version=${{ steps.vars.outputs.version }} -p:DebugType=none -p:DebugSymbols=false -o publish/win-x64
 
       - name: Create zip
         shell: pwsh
@@ -36,5 +41,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ steps.vars.outputs.tag }}
+          name: ${{ steps.vars.outputs.tag }}
           files: ntfy-pusher-windows-x64.zip
           generate_release_notes: true
