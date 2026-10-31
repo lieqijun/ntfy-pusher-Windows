@@ -23,7 +23,7 @@ jobs:
         id: vars
         shell: pwsh
         run: |
-          $dt = Get-Date
+          $dt = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId((Get-Date), 'China Standard Time')
           $tag = $dt.ToString("yyyyMMdd-HHmmss")
           $version = $dt.ToString("yyyy.MM.dd.HHmmss")
           echo "tag=$tag" >> $env:GITHUB_OUTPUT
