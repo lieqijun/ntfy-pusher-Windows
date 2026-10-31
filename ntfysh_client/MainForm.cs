@@ -424,17 +424,7 @@ namespace ntfysh_client
             Close();
         }
 
-        private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            _trueExit = true;
-            Close();
-        }
-
         private void notificationTopics_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void fileToolStripMenuItem_Click(object sender, EventArgs e)
         {
         }
 
