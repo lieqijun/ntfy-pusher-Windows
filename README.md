@@ -36,5 +36,3 @@ ntfy.sh Windows 是一款轻量级的推送通知客户端，用于接收通过�
 1. 打开仓库页面 → 顶部 **Actions** → 左侧 **Build and Release** → 右侧 **Run workflow**；
 2. 分支选择 `master`，点击 **Run workflow** 即可；
 3. 工作流会编译 `win-x64`（框架依赖，需目标机已安装 **.NET 8 Desktop Runtime**），打包为 `ntfy-pusher-windows-x64.zip`，并以当前北京时间的日期时间戳 `yyyyMMdd-HHmmss` 作为 tag 与 Release 名称自动创建 Release（含自动生成的发布说明）。
-
-> 注意：本客户端**没有任何更新检查或自动更新功能**。发布后请自行到仓库的 Releases 页下载最新压缩包分发给用户。
