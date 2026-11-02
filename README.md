@@ -42,10 +42,10 @@ ntfy.sh Windows 是一款轻量级的推送通知客户端，用于接收通过�
 - 运行要求与主程序一致：系统需安装 **.NET 8 Desktop Runtime**。
 
 ### 如何发布新版本（维护者）
-1. 推送一个形如 `v1.1.0` 的 tag（版本号以 tag 为准，`v` 前缀可省略）：
-   ```
-   git tag v1.1.0
-   git push origin v1.1.0
-   ```
-2. GitHub Actions 会自动编译 win-x64 版本、打包成 zip 并创建 Release（见 `.github/workflows/release.yml`）；
-3. 客户端下次检查更新时即可发现并自动更新。
+版本发布由 GitHub Actions 工作流 `.github/workflows/release.yml` 完成，该工作流**不会**随 push/tag 自动触发，需手动运行：
+
+1. 打开仓库页面 → 顶部 **Actions** → 左侧 **Build and Release** → 右侧 **Run workflow**；
+2. 分支选择 `master`，点击 **Run workflow** 即可；
+3. 工作流会编译 `win-x64`（框架依赖，需目标机已安装 **.NET 8 Desktop Runtime**），打包为 `ntfy-pusher-windows-x64.zip`，并以当前北京时间的日期时间戳 `yyyyMMdd-HHmmss` 作为 tag 与 Release 名称自动创建 Release（含自动生成的发布说明）。
+
+> 注意：本客户端**没有**内置自动更新功能，"检查更新"仅打开 Releases 页面。发布后请自行到仓库的 Releases 页下载最新压缩包分发给用户。
