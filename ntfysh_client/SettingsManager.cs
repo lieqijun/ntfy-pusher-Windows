@@ -16,12 +16,13 @@ namespace ntfysh_client
 
         private static SettingsModel GetDefaultSettings() => new()
         {
-            Revision = 5,
+            Revision = 6,
             Timeout = 5,
             ReconnectAttemptDelay = 3,
             NativeNotificationsAutoCopyToClipboard = false,
             AutoStartEnabled = false,
-            AutoStartSilent = false
+            AutoStartSilent = false,
+            ClientCertificateThumbprint = ""
         };
 
         private static void MergeSettingsRevisions(SettingsModel older, SettingsModel newer)

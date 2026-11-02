@@ -42,6 +42,9 @@ namespace ntfysh_client
             nativeNotificationAutoCopy = new System.Windows.Forms.CheckBox();
             checkBoxAutoStart = new System.Windows.Forms.CheckBox();
             checkBoxSilentStart = new System.Windows.Forms.CheckBox();
+            certGroup = new System.Windows.Forms.GroupBox();
+            certThumbLabel = new System.Windows.Forms.Label();
+            certThumbprint = new System.Windows.Forms.TextBox();
             buttonPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)timeout).BeginInit();
             ((System.ComponentModel.ISupportInitialize)reconnectAttemptDelay).BeginInit();
@@ -111,6 +114,27 @@ namespace ntfysh_client
             checkBoxSilentStart.Name = "checkBoxSilentStart";
             checkBoxSilentStart.UseVisualStyleBackColor = true;
             // 
+            // certGroup
+            // 
+            resources.ApplyResources(certGroup, "certGroup");
+            certGroup.Name = "certGroup";
+            certGroup.TabStop = false;
+            // 
+            // certThumbLabel
+            // 
+            resources.ApplyResources(certThumbLabel, "certThumbLabel");
+            certThumbLabel.Name = "certThumbLabel";
+            // 
+            // certThumbprint
+            // 
+            resources.ApplyResources(certThumbprint, "certThumbprint");
+            certThumbprint.Name = "certThumbprint";
+            // 
+            // certGroup children
+            // 
+            certGroup.Controls.Add(certThumbprint);
+            certGroup.Controls.Add(certThumbLabel);
+            // 
             // 
             // SettingsDialog
             // 
@@ -120,6 +144,7 @@ namespace ntfysh_client
             Controls.Add(nativeNotificationAutoCopy);
             Controls.Add(checkBoxAutoStart);
             Controls.Add(checkBoxSilentStart);
+            Controls.Add(certGroup);
             Controls.Add(reconnectAttemptDelay);
             Controls.Add(reconnectAttemptDelayLabel);
             Controls.Add(timeout);
@@ -154,5 +179,8 @@ namespace ntfysh_client
         private System.Windows.Forms.CheckBox nativeNotificationAutoCopy;
         private System.Windows.Forms.CheckBox checkBoxAutoStart;
         private System.Windows.Forms.CheckBox checkBoxSilentStart;
+        private System.Windows.Forms.GroupBox certGroup;
+        private System.Windows.Forms.Label certThumbLabel;
+        private System.Windows.Forms.TextBox certThumbprint;
     }
 }

@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
-using static ntfysh_client.SettingsModel;
 
 namespace ntfysh_client
 {
@@ -36,6 +34,15 @@ namespace ntfysh_client
         {
             get => nativeNotificationAutoCopy.Checked;
             set => nativeNotificationAutoCopy.Checked = value;
+        }
+        #endregion
+
+        #region: mTLS client certificate (optional)
+        /// <summary>客户端证书指纹；留空表示不发送客户端证书。</summary>
+        public string CertThumbprint
+        {
+            get => certThumbprint.Text.Trim();
+            set => certThumbprint.Text = value ?? "";
         }
         #endregion
 

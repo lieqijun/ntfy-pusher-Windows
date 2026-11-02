@@ -252,9 +252,6 @@
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 4, 4, 4</value>
   </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>531, 285</value>
-  </data>
   <data name="reconnectAttemptDelayLabel.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -344,5 +341,80 @@
   </data>
   <data name="checkBoxSilentStart.Text" xml:space="preserve">
     <value>静默启动（启动后最小化到系统托盘）</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>531, 360</value>
+  </data>
+  <data name="certGroup.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 213</value>
+  </data>
+  <data name="certGroup.Size" type="System.Drawing.Size, System.Drawing">
+    <value>507, 78</value>
+  </data>
+  <data name="certGroup.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="certGroup.Text" xml:space="preserve">
+    <value>客户端证书（mTLS）（可选）</value>
+  </data>
+  <data name="&gt;&gt;certGroup.Name" xml:space="preserve">
+    <value>certGroup</value>
+  </data>
+  <data name="&gt;&gt;certGroup.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;certGroup.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;certGroup.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="certThumbLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 24</value>
+  </data>
+  <data name="certThumbLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 17</value>
+  </data>
+  <data name="certThumbLabel.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="certThumbLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="certThumbLabel.Text" xml:space="preserve">
+    <value>证书指纹 (Thumbprint):</value>
+  </data>
+  <data name="&gt;&gt;certThumbLabel.Name" xml:space="preserve">
+    <value>certThumbLabel</value>
+  </data>
+  <data name="&gt;&gt;certThumbLabel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;certThumbLabel.Parent" xml:space="preserve">
+    <value>certGroup</value>
+  </data>
+  <data name="&gt;&gt;certThumbLabel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="certThumbprint.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 46</value>
+  </data>
+  <data name="certThumbprint.Size" type="System.Drawing.Size, System.Drawing">
+    <value>475, 23</value>
+  </data>
+  <data name="certThumbprint.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;certThumbprint.Name" xml:space="preserve">
+    <value>certThumbprint</value>
+  </data>
+  <data name="&gt;&gt;certThumbprint.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;certThumbprint.Parent" xml:space="preserve">
+    <value>certGroup</value>
+  </data>
+  <data name="&gt;&gt;certThumbprint.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
 </root>

@@ -246,6 +246,7 @@ namespace ntfysh_client
             dialog.NativeNotificationsAutoCopyToClipboard = Program.Settings.NativeNotificationsAutoCopyToClipboard;
             dialog.AutoStartEnabled = Program.Settings.AutoStartEnabled;
             dialog.AutoStartSilent = Program.Settings.AutoStartSilent;
+            dialog.CertThumbprint = Program.Settings.ClientCertificateThumbprint;
 
             DialogResult result = dialog.ShowDialog();
             if (result != DialogResult.OK) return;
@@ -255,6 +256,7 @@ namespace ntfysh_client
             Program.Settings.NativeNotificationsAutoCopyToClipboard = dialog.NativeNotificationsAutoCopyToClipboard;
             Program.Settings.AutoStartEnabled = dialog.AutoStartEnabled;
             Program.Settings.AutoStartSilent = dialog.AutoStartSilent;
+            Program.Settings.ClientCertificateThumbprint = dialog.CertThumbprint;
 
             UpdateAutoStart();
             SettingsManager.SaveSettings(Program.Settings);

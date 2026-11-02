@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.WebSockets;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,7 +31,7 @@ namespace ntfysh_client.Notifications
             ServicePointManager.DefaultConnectionLimit = 100;
         }
 
-        private async Task ListenToTopicWithHttpLongJsonAsync(HttpRequestMessage message, SubscribedTopic topic, int reconnectAttempts = 10, int reconnectAttemptDelay = 3, CancellationToken cancellationToken = default)
+        private async Task ListenToTopicWithHttpLongJsonAsync(HttpRequestMessage message, SubscribedTopic topic, X509Certificate2? clientCertificate = null, int reconnectAttempts = 10, int reconnectAttemptDelay = 3, CancellationToken cancellationToken = default)
         {
             int connectionAttempts = 0;
             while (!cancellationToken.IsCancellationRequested)
@@ -42,31 +43,51 @@ namespace ntfysh_client.Notifications
                 }
                 try
                 {
-                    using HttpClient client = new();
-                    client.Timeout = TimeSpan.FromMilliseconds(Timeout.Infinite);
-                    using HttpResponseMessage response = await client.SendAsync(message, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-                    await using Stream body = await response.Content.ReadAsStreamAsync(cancellationToken);
+                    HttpClientHandler? handler = clientCertificate is null ? null : new HttpClientHandler();
+                    if (handler is not null) handler.ClientCertificates.Add(clientCertificate!);
 
-                    response.EnsureSuccessStatusCode();
-                    connectionAttempts = 0;
-
-                    StringBuilder mainBuffer = new();
-                    while (!cancellationToken.IsCancellationRequested)
+                    HttpClient client;
+                    if (handler is null)
                     {
-                        byte[] buffer = new byte[8192];
-                        int readBytes = await body.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
-                        mainBuffer.Append(Encoding.UTF8.GetString(buffer, 0, readBytes));
-                        List<string> lines = mainBuffer.ToString().Split('\n').ToList();
-                        if (lines.Count <= 1) continue;
+                        client = new HttpClient();
+                    }
+                    else
+                    {
+                        client = new HttpClient(handler);
+                    }
 
-                        int partialLineIndex = lines.Count - 1;
-                        string partialLine = lines[partialLineIndex];
-                        lines.RemoveAt(partialLineIndex);
+                    try
+                    {
+                        client.Timeout = TimeSpan.FromMilliseconds(Timeout.Infinite);
+                        using HttpResponseMessage response = await client.SendAsync(message, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+                        await using Stream body = await response.Content.ReadAsStreamAsync(cancellationToken);
 
-                        foreach (string line in lines) ProcessMessage(topic, line);
+                        response.EnsureSuccessStatusCode();
+                        connectionAttempts = 0;
 
-                        mainBuffer.Clear();
-                        mainBuffer.Append(partialLine);
+                        StringBuilder mainBuffer = new();
+                        while (!cancellationToken.IsCancellationRequested)
+                        {
+                            byte[] buffer = new byte[8192];
+                            int readBytes = await body.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
+                            mainBuffer.Append(Encoding.UTF8.GetString(buffer, 0, readBytes));
+                            List<string> lines = mainBuffer.ToString().Split('\n').ToList();
+                            if (lines.Count <= 1) continue;
+
+                            int partialLineIndex = lines.Count - 1;
+                            string partialLine = lines[partialLineIndex];
+                            lines.RemoveAt(partialLineIndex);
+
+                            foreach (string line in lines) ProcessMessage(topic, line);
+
+                            mainBuffer.Clear();
+                            mainBuffer.Append(partialLine);
+                        }
+                    }
+                    finally
+                    {
+                        client.Dispose();
+                        handler?.Dispose();
                     }
                 }
                 catch (HttpRequestException hre)
@@ -97,7 +118,7 @@ namespace ntfysh_client.Notifications
             }
         }
 
-        private async Task ListenToTopicWithWebsocketAsync(Uri uri, string? bearerHeader, SubscribedTopic topic, int reconnectAttempts = 10, int reconnectAttemptDelay = 3, CancellationToken cancellationToken = default)
+        private async Task ListenToTopicWithWebsocketAsync(Uri uri, string? bearerHeader, SubscribedTopic topic, X509Certificate2? clientCertificate = null, int reconnectAttempts = 10, int reconnectAttemptDelay = 3, CancellationToken cancellationToken = default)
         {
             int connectionAttempts = 0;
             while (!cancellationToken.IsCancellationRequested)
@@ -113,6 +134,10 @@ namespace ntfysh_client.Notifications
                     if (!string.IsNullOrWhiteSpace(bearerHeader))
                     {
                         socket.Options.SetRequestHeader("Authorization", bearerHeader);
+                    }
+                    if (clientCertificate is not null)
+                    {
+                        socket.Options.ClientCertificates.Add(clientCertificate);
                     }
                     await socket.ConnectAsync(uri, cancellationToken);
                     connectionAttempts = 0;
@@ -186,7 +211,8 @@ namespace ntfysh_client.Notifications
 
             SubscribedTopic newTopic = new SubscribedTopic(topicId, serverUrl, bearerToken);
             CancellationTokenSource listenCanceller = new();
-            Task listenTask = ListenToTopicWithHttpLongJsonAsync(message, newTopic, reconnectAttempts, reconnectAttemptDelay, listenCanceller.Token);
+            X509Certificate2? clientCertificate = ClientCertificateProvider.Resolve(Program.Settings);
+            Task listenTask = ListenToTopicWithHttpLongJsonAsync(message, newTopic, clientCertificate, reconnectAttempts, reconnectAttemptDelay, listenCanceller.Token);
 
             newTopic.SetAssociatedRunner(listenTask, listenCanceller);
             SubscribedTopicsByUnique.Add(unique, newTopic);
@@ -204,7 +230,8 @@ namespace ntfysh_client.Notifications
             string? bearerHeader = !string.IsNullOrEmpty(bearerToken) ? $"Bearer {bearerToken}" : null;
 
             CancellationTokenSource listenCanceller = new();
-            Task listenTask = ListenToTopicWithWebsocketAsync(new Uri($"{serverUrl}/{HttpUtility.UrlEncode(topicId)}/ws"), bearerHeader, newTopic, reconnectAttempts, reconnectAttemptDelay, listenCanceller.Token);
+            X509Certificate2? clientCertificate = ClientCertificateProvider.Resolve(Program.Settings);
+            Task listenTask = ListenToTopicWithWebsocketAsync(new Uri($"{serverUrl}/{HttpUtility.UrlEncode(topicId)}/ws"), bearerHeader, newTopic, clientCertificate, reconnectAttempts, reconnectAttemptDelay, listenCanceller.Token);
 
             newTopic.SetAssociatedRunner(listenTask, listenCanceller);
             SubscribedTopicsByUnique.Add(unique, newTopic);
