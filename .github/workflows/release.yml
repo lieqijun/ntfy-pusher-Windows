@@ -25,7 +25,10 @@ jobs:
         run: |
           $dt = [System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId((Get-Date), 'China Standard Time')
           $tag = $dt.ToString("yyyyMMdd-HHmmss")
-          $version = $dt.ToString("yyyy.MM.dd.HHmmss")
+          # AssemblyVersion 每个分量上限为 65534(16 位)。若把 HHmmss(最大 235959) 作为第 4 段，
+          # 在 06:33 之后(>65535)会触发 CS7034 编译失败。故版本仅用 yyyy.MM.dd(3 段)，
+          # 完整的日期时间戳保留在上面的 tag 中。
+          $version = $dt.ToString("yyyy.MM.dd")
           echo "tag=$tag" >> $env:GITHUB_OUTPUT
           echo "version=$version" >> $env:GITHUB_OUTPUT
 
